@@ -1,12 +1,12 @@
 #include "header.hpp"
 
 void let(string& in){//(x=10)in(...)
-	string name=get1stWord(in);
-	in = in.substr(get1stWordPos(in).ss);//x
-	string val = get1stWord(in);
-	in = in.substr(get1stWordPos(in).ss);//10
-	in = in.substr(get1stWordPos(in).ss);//in
-	in = in.substr(1,in.size()-2);//(...)
+	string name=get1stWord(in);//name="x"
+	in = in.substr(get1stWordPos(in).ss);//in="=10)in(...)"
+	string val = get1stWord(in);//val="10"
+	in = in.substr(get1stWordPos(in).ss);//in=")in(...)"
+	in = in.substr(get1stWordPos(in).ss);//in="(...)"
+	in = in.substr(1,in.size()-2);//in="..."
 	if(val=="true"){
 		cout << name << " = bool(true)" << endl;
 		vars[name]=var((bool)true);
