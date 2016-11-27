@@ -21,6 +21,6 @@ miniHfunc::miniHfunc(string s){
 	body=s.substr(close+2);
 }
 
-int miniHfunc::call(string s,bool print=false){
+int miniHfunc::call(string s,bool print){
 	return 0;
 }

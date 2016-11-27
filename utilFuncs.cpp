@@ -1,8 +1,5 @@
 #include "header.hpp"
 
-extern map<string,miniHfunc> funcs;
-extern map<string,var> vars;
-
 bool strStartsWith(const string& a,const string& b){
 	if(a.size() <b.size())return false;
 	if(a.size()==b.size())return a==b;
@@ -26,6 +23,6 @@ ii get1stWordPos(const string& s,string ignore){
 
 string get1stWord(const string& s,string ignore){
 	ii pos = get1stWordPos(s,ignore);
-	cout << s << " " << pos.ff << " " << pos.ss << endl;
+	//cout << s << " " << pos.ff << " " << pos.ss << endl;
 	return s.substr(pos.ff,pos.ss-pos.ff);
 }

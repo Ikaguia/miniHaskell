@@ -1,27 +1,31 @@
 #include "header.hpp"
 
-void let(string& in){//(x=10)in(...)
+var let(string& in){//(x=10)in(...)
+	var temp;
 	string name=get1stWord(in);//name="x"
-	in = in.substr(get1stWordPos(in).ss);//in="=10)in(...)"
-	string val = get1stWord(in);//val="10"
-	in = in.substr(get1stWordPos(in).ss);//in=")in(...)"
-	in = in.substr(get1stWordPos(in).ss);//in="(...)"
-	in = in.substr(1,in.size()-2);//in="..."
-	if(val=="true"){
-		cout << name << " = bool(true)" << endl;
-		vars[name]=var((bool)true);
+	in = in.substr(get1stWordPos(in).ss);//in="10)in(...)"
+	int i=0,deep=1;
+	while(1){
+		if(in[i]=='(')deep++;
+		if(in[i]==')')deep--;
+		if(!deep)break;
+		i++;
 	}
-	else if(val=="false"){
-		cout << name << " = bool(false)" << endl;
-		vars[name]=var((bool)false);
-	}
-	else{
-		int valI=atoi(val.c_str());
-		cout << name << " = int(" << valI << ")" << endl;
-		vars[name]=var(valI);
-	}
-	cout << vars[name].t << endl;
-	cout << in << endl;	
+	string t=in.substr(1,i-1);
+	cout << "running expr " << t << endl;
+	if(vars[name].t!=error)temp=vars[name];
+	vars[name]=runExpr(t);
+	cout << "var(" << name << ") = " << (vars[name].t==(char)tInt?"int":"bool") << "(" << vars[name].val << ")" << endl;
+	cout << "in1 = " << in << endl;
+	in=in.substr(i+1);//in=")in(...)"
+	cout << "in2 = " << in << endl;
+	in=in.substr(in.find_first_of("("));//in="(...)"
+	in=in.substr(1,in.size()-2);//in="..."
+	cout << "in3 = " << in << endl;
+
+	if(temp.t!=error)vars[name]=temp;
+	else vars.erase(name);
+	return runExpr(in);
 }
 
 var sum(string& expr){
@@ -43,18 +47,20 @@ var sum(string& expr){
 }
 
 var runExpr(string& expr){
+	cout << "running " << expr << endl;
 	string start=get1stWord(expr);
-	if(start=="let"){//let(x=10)in(y)
-		expr=expr.substr(3);
-		let(expr);
-		return runExpr(expr);
+	if(start=="let"){//let(x=10)in(expr)
+		expr=expr.substr(get1stWordPos(expr).ss+1);
+		return let(expr);
 	}
 	else if(start=="sum"){//sum(x,y)
-		expr=expr.substr(4,expr.size()-5);
+		expr=expr.substr(get1stWordPos(expr).ss+1);
+		expr=expr.substr(0,expr.size()-1);
 		return sum(expr);
 	}
 	else if(funcs[start].name!=""){//função com esse nome esta definida //foo(x,y)
 		expr = expr.substr(get1stWordPos(expr).ss);
+		funcs[start].call(expr);
 	}
 	else if(vars[start].t!=error){//variavel com esse nome esta definida //x
 		return vars[start];

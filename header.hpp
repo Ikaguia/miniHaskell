@@ -44,7 +44,7 @@ public:
 	string body;
 	miniHfunc(string);
 	miniHfunc();
-	int call(string,bool);
+	int call(string,bool=false);
 };
 
 //utilFuncs
