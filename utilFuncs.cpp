@@ -26,3 +26,19 @@ string get1stWord(const string& s,string ignore){
 	//cout << s << " " << pos.ff << " " << pos.ss << endl;
 	return s.substr(pos.ff,pos.ss-pos.ff);
 }
+
+string lower_case(const string& in){
+	string out=in;
+	for(auto &i:out){
+		if(i>='A' && i <='Z')i=(i-'A')+'a';
+	}
+	return out;
+}
+
+string upper_case(const string& in){
+	string out=in;
+	for(auto &i:out){
+		if(i>='a' && i <='z')i=(i-'a')+'A';
+	}
+	return out;
+}

@@ -23,7 +23,7 @@ using ii = pair<int,int>;
 
 
 //var
-typedef enum{tInt,tBool,error} type;
+typedef enum{tInt,tBool,error,sucess} type;
 using ts = pair<type,string>;
 
 class var{
@@ -32,8 +32,15 @@ public:
 	int val;
 	bool inf;
 	var():t{error},val{0},inf{false}{};
+	var(type x):t{x},val{0},inf{false}{};
 	var(bool v):t{tBool},val{v},inf{false}{};
 	var(int v):t{tInt},val{v},inf{false}{};
+	string str(){
+		if(t==sucess)return "SUCESS";
+		if(t==error)return "ERROR";
+		if(t==tBool)return val?"TRUE":"FALSE";
+		return to_string(val);
+	}
 };
 
 //miniHfunc
@@ -44,7 +51,7 @@ public:
 	string body;
 	miniHfunc(string);
 	miniHfunc();
-	int call(string,bool=false);
+	var call(string,bool=false);
 };
 
 //utilFuncs
@@ -52,6 +59,8 @@ extern bool strStartsWith(const string&,const string&);
 extern bool strEndsWith(const string&,const string&);
 extern ii get1stWordPos(const string&,string ignore=" 	\n,.();\"\'=");
 extern string get1stWord(const string&,string ignore=" 	\n,.();\"\'=");
+extern string lower_case(const string&);
+extern string upper_case(const string&);
 
 //runExpr
 extern var runExpr(string& expr);

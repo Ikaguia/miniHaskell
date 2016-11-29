@@ -11,15 +11,7 @@ int main(){
 		vars.clear();
 		getline(cin,in);
 		if(in=="exit")break;
-		if(strStartsWith(in,"define ")){
-			miniHfunc f(in.substr(7));
-			funcs[f.name]=f;
-		}
-		else if(strStartsWith(in,"def ")){
-			miniHfunc f(in.substr(4));
-			funcs[f.name]=f;
-		}
-		else cout << runExpr(in).val << endl;
+		else cout << runExpr(in).str() << endl;
 	}
 	return 0;
 }
