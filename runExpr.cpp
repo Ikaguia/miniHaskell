@@ -53,7 +53,8 @@ var getInt(string& expr){
 	return var(atoi(expr.c_str()));
 }
 
-var sumOp(string& expr){
+//binary operators start
+void getBinOperatorVals(string& expr,var& val1,var& val2){
 	int deep=0,middle=0;
 	FOR(i,expr.size()){
 		if(expr[i]=='(')deep++;
@@ -63,68 +64,90 @@ var sumOp(string& expr){
 			break;
 		}
 	}
-	string s=expr.substr(0,middle);
-	var val1=runExpr(s);
+	val1=runExpr(s);
 	s=expr.substr(middle+1);
-	var val2=runExpr(s);
+	val2=runExpr(s);
+}
+
+var sumOp(string& expr){//int,int -> int
+	var val1,val2;
+	getBinOperatorVals(expr,val1,val2);
 	if(val1.t!=tInt || val2.t!=tInt)return var();
 	cout << "left = " << val1.val << " right = " << val2.val << endl;
 	return var(val1.val+val2.val);
 }
 
-var multOp(string& expr){
-	int deep=0,middle=0;
-	FOR(i,expr.size()){
-		if(expr[i]=='(')deep++;
-		if(expr[i]==')')deep--;
-		if(expr[i]==',' && deep==0){
-			middle=i;
-			break;
-		}
-	}
-	string s=expr.substr(0,middle);
-	var val1=runExpr(s);
-	s=expr.substr(middle+1);
-	var val2=runExpr(s);
+var subOp(string& expr){//int,int -> int
+	var val1,val2;
+	getBinOperatorVals(expr,val1,val2);
+	if(val1.t!=tInt || val2.t!=tInt)return var();
+	cout << "left = " << val1.val << " right = " << val2.val << endl;
+	return var(val1.val-val2.val);
+}
+
+var multOp(string& expr){//int,int -> int
+	var val1,val2;
+	getBinOperatorVals(expr,val1,val2);
 	if(val1.t!=tInt || val2.t!=tInt)return var();
 	return var(val1.val*val2.val);
 }
 
-var andOp(string& expr){
-	int deep=0,middle=0;
-	FOR(i,expr.size()){
-		if(expr[i]=='(')deep++;
-		if(expr[i]==')')deep--;
-		if(expr[i]==',' && deep==0){
-			middle=i;
-			break;
-		}
-	}
-	string s=expr.substr(0,middle);
-	var val1=runExpr(s);
-	s=expr.substr(middle+1);
-	var val2=runExpr(s);
+var divOp(string& expr){//int,int -> int
+	var val1,val2;
+	getBinOperatorVals(expr,val1,val2);
+	if(val1.t!=tInt || val2.t!=tInt)return var();
+	return var(val1.val/val2.val);
+}
+
+var andOp(string& expr){//bool,bool -> bool
+	var val1,val2;
+	getBinOperatorVals(expr,val1,val2);
 	if(val1.t!=tBool || val2.t!=tBool)return var();
 	return var(val1.val && val2.val);
 }
 
-var orOp(string& expr){
-	int deep=0,middle=0;
-	FOR(i,expr.size()){
-		if(expr[i]=='(')deep++;
-		if(expr[i]==')')deep--;
-		if(expr[i]==',' && deep==0){
-			middle=i;
-			break;
-		}
-	}
-	string s=expr.substr(0,middle);
-	var val1=runExpr(s);
-	s=expr.substr(middle+1);
-	var val2=runExpr(s);
+var orOp(string& expr){//bool,bool -> bool
+	var val1,val2;
+	getBinOperatorVals(expr,val1,val2);
 	if(val1.t!=tBool || val2.t!=tBool)return var();
 	return var(val1.val || val2.val);
 }
+
+var eqOp(string& expr){//?,? -> bool
+	var val1,val2;
+	getBinOperatorVals(expr,val1,val2);
+	if(val1.t!=val2.t)return var();
+	return var(val1.val == val2.val);
+}
+
+var gtOp(string& expr){//int,int -> bool
+	var val1,val2;
+	getBinOperatorVals(expr,val1,val2);
+	if(val1.t!=tInt || val2.t!=tInt)return var();
+	return var(val1.val>val2.val);
+}
+
+var ltOp(string& expr){//int,int -> bool
+	var val1,val2;
+	getBinOperatorVals(expr,val1,val2);
+	if(val1.t!=tInt || val2.t!=tInt)return var();
+	return var(val1.val<val2.val);
+}
+
+var geOp(string& expr){//int,int -> bool
+	var val1,val2;
+	getBinOperatorVals(expr,val1,val2);
+	if(val1.t!=tInt || val2.t!=tInt)return var();
+	return var(val1.val>=val2.val);
+}
+
+var leOp(string& expr){//int,int -> bool
+	var val1,val2;
+	getBinOperatorVals(expr,val1,val2);
+	if(val1.t!=tInt || val2.t!=tInt)return var();
+	return var(val1.val<=val2.val);
+}
+//binary operators end
 
 var notOp(string& expr){
 	var val=runExpr(expr);
@@ -136,11 +159,23 @@ using funcT=var(string&);
 using funcP=funcT*;
 using psf=pair<string,funcP>;
 psf operators[]={
-	psf("sum", (funcP)sumOp),
-	psf("mult",(funcP)multOp),
-	psf("and", (funcP)andOp),
-	psf("or", (funcP)orOp),
-	psf("not", (funcP)notOp),
+	psf("sum",		(funcP)sumOp),
+	psf("sub",		(funcP)subOp),
+	psf("mult",		(funcP)multOp),
+	psf("div",		(funcP)divOp),
+	psf("and",		(funcP)andOp),
+	psf("or",		(funcP)orOp),
+	psf("not",		(funcP)notOp),
+	psf("equals",	(funcP)eqOp),//equals
+	psf("eq",		(funcP)eqOp),//equals
+	psf("greater",	(funcP)gtOp),//greater then
+	psf("gt",		(funcP)gtOp),//greater then
+	psf("lessThen",	(funcP)ltOp),//less then
+	psf("lt",		(funcP)ltOp),//less then
+	psf("greaterEq",(funcP)geOp),//greater then or equals
+	psf("ge",		(funcP)geOp),//greater then or equals
+	psf("lessEq",	(funcP)leOp),//less then or equals
+	psf("le",		(funcP)leOp),//less then or equals
 };
 
 
