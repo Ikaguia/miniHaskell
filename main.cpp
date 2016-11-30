@@ -11,6 +11,7 @@ int main(){
 		vars.clear();
 		getline(cin,in);
 		if(in=="exit")break;
+		else if(in=="clear")system("clear");
 		else cout << runExpr(in).str() << endl;
 	}
 	return 0;

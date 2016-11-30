@@ -2,15 +2,14 @@
 #define miniHheader
 
 #include <bits/stdc++.h>
-#include <math.h>
-#include <unistd.h>
+//#include <math.h>
+//#include <unistd.h>
 using namespace std;
+
+#define DEBUG true
 
 #define FOR(cont,max)			for(int (cont)=0;		(cont)<(int)(max);(cont)++)
 #define FOR2(cont,start,max)	for(int (cont)=(start);	(cont)<(int)(max);(cont)++)
-#define ABS(x)					(((x)> 0 ) ? (x) :-(x))
-#define MAX(x,y)				(((x)>(y)) ? (x) : (y))
-#define MIN(x,y)				(((x)<(y)) ? (x) : (y))
 #define BETWEEN(x,a,b)			(((x)>=(a)) && ((x)<(b)))
 #define SWAP(a,b)				int _temp_=(a);(a)=(b);(b)=_temp_;
 #define RAND(max)				(rand()%(max))
@@ -23,20 +22,19 @@ using ii = pair<int,int>;
 
 
 //var
-typedef enum{tInt,tBool,error,sucess} type;
+typedef enum{tInt,tBool,error,success} type;
 using ts = pair<type,string>;
 
 class var{
 public:
 	type t;
 	int val;
-	bool inf;
-	var():t{error},val{0},inf{false}{};
-	var(type x):t{x},val{0},inf{false}{};
-	var(bool v):t{tBool},val{v},inf{false}{};
-	var(int v):t{tInt},val{v},inf{false}{};
+	var():t{error},val{0}{};
+	var(type x):t{x},val{0}{};
+	var(bool v):t{tBool},val{v}{};
+	var(int v):t{tInt},val{v}{};
 	string str(){
-		if(t==sucess)return "SUCESS";
+		if(t==success)return "SUCCESS";
 		if(t==error)return "ERROR";
 		if(t==tBool)return val?"TRUE":"FALSE";
 		return to_string(val);

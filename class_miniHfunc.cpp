@@ -25,5 +25,6 @@ miniHfunc::miniHfunc(string s){
 }
 
 var miniHfunc::call(string s,bool print){
-	return var(sucess);//todo
+	if(DEBUG)cout << "CALL function not implemented" << endl;
+	return var(success);//todo
 }
