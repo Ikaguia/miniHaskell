@@ -1,0 +1,11 @@
+let(x=sum(10,15))in(sum(x,let(x=5)in(x)))
+
+let(x=9)in(sum(x,let(x=3)in(x)))
+
+div(5,0)
+
+let(x=1,y=2)in(equals(not(gt(x,y)),le(x,y)))
+
+define foo(int x)=(x)
+
+exit

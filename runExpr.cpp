@@ -1,5 +1,30 @@
 #include "header.hpp"
 
+using funcT=var(string&);
+using funcP=funcT*;
+using psf=pair<string,funcP>;
+psf operators[]={
+	psf("sum",		(funcP)sumOp),
+	psf("sub",		(funcP)subOp),
+	psf("mult",		(funcP)multOp),
+	psf("div",		(funcP)divOp),
+	psf("and",		(funcP)andOp),
+	psf("or",		(funcP)orOp),
+	psf("not",		(funcP)notOp),
+	psf("equals",	(funcP)eqOp),//equals
+	psf("eq",		(funcP)eqOp),//equals
+	psf("greater",	(funcP)gtOp),//greater then
+	psf("gt",		(funcP)gtOp),//greater then
+	psf("lessThen",	(funcP)ltOp),//less then
+	psf("lt",		(funcP)ltOp),//less then
+	psf("greaterEq",(funcP)geOp),//greater then or equals
+	psf("ge",		(funcP)geOp),//greater then or equals
+	psf("lessEq",	(funcP)leOp),//less then or equals
+	psf("le",		(funcP)leOp),//less then or equals
+};
+
+
+
 var let(string& in){//(x=10,y=20)in(...)
 	if(DEBUG)cout << "running let" << endl;
 	if(DEBUG)cout << "in = " << in << endl;
@@ -12,27 +37,44 @@ var let(string& in){//(x=10,y=20)in(...)
 		if(!deep)break;
 	}
 	string inside=in.substr(0,i)+")";//inside="x=10,y=20"
+	in=in.substr(i+1);//in="in(...)"
 	if(DEBUG)cout << "inside = " << inside << endl;
-	while(inside.size()){
+	while(1){
 		string name=get1stWord(inside);//name="x"//name="y"
 		if(DEBUG)cout << "name = " << name << endl;
-		inside = inside.substr(get1stWordPos(inside).ss+1);//inside="10,y=20"
+
+		for(auto i:reservedWords)if(i==name){
+			if(DEBUG)cout << i << " = " << name << endl;
+			return var(error,reservedError);
+		}
+		for(auto i:operators)if(i.ff==name){
+			if(DEBUG)cout << i.ff << " = " << name << endl;
+			return var(error,reservedError);
+		}
+
+		inside = inside.substr(get1stWordPos(inside).ss);//inside="=10,y=20"
+		inside = inside.substr(inside.find_first_of("=")+1);//inside="10,y=20"
 		if(DEBUG)cout << "inside = " << inside << endl;
 		for(deep=1,i=0;deep && (size_t)i<inside.size();i++){
-			if(in[i]=='(')deep++;
-			if(in[i]==')')deep--;
-			if(in[i]==',' && deep==1)break;
+			if(inside[i]=='(')deep++;
+			if(inside[i]==')')deep--;
+			if(inside[i]==',' && deep==1)break;
 		}
 		string val=inside.substr(0,i-1);
+		if((size_t)i>=inside.size())i=inside.size()-1;
+		inside=inside.substr(i);
 		if(DEBUG)cout << "val = " << val << endl;
 		if(mapV[name].t!=error);//if you do let(x=1,x=2)in(expr) x will be assigned as 2
 		else if(vars[name].t!=error)mapV[name]=vars[name];//restore previous var value after this "let" ends
 		else                        mapV[name]=var(error);//remove this var after this "let" ends
 		vars[name]=runExpr(val);
 		if(DEBUG)cout << "var(" << name << ") = " << (vars[name].t==(char)tInt?"int":"bool") << "(" << vars[name].val << ")" << endl;
-		if(i<inside.size())inside=inside.substr(i);
+		if(get1stWord(inside)==")")break;
 	}
-	if(DEBUG)cout << "in = " << in << endl;
+	if(DEBUG)cout << "in = " << in << endl;//in(...)
+	in=in.substr(get1stWordPos(in).ss+1);
+	in=in.substr(0,in.size()-1);
+	if(DEBUG)cout << "in = " << in << endl;//in(...)
 
 	var result = runExpr(in);
 
@@ -57,7 +99,7 @@ var ifThenElse(string& in){//(a)then(x)else(y)
 	string cond=in.substr(0,i);//cond="x=10,y=20"
 	if(DEBUG)cout << "cond = " << cond << endl;
 	var result=runExpr(cond);
-	if(result.t!=tBool)return var(error);
+	if(result.t!=tBool)return var(error,typeError);
 
 	in=in.substr(i+1);
 	in=in.substr(in.find_first_of("("));
@@ -77,7 +119,7 @@ var ifThenElse(string& in){//(a)then(x)else(y)
 	cout << "else false = " << in << endl;
 	in=in.substr(in.find_first_of("("));
 	cout << "false = " << in << endl;
-		return runExpr(in);
+	return runExpr(in);
 }
 
 var defineFunc(string& expr){
@@ -147,7 +189,7 @@ var divOp(string& expr){//int,int -> int
 	var val1,val2;
 	getBinOperatorVals(expr,val1,val2);
 	if(val1.t!=tInt || val2.t!=tInt)return var();
-	if(val2.val==0)return var(error);
+	if(val2.val==0)return var(error,div0Error);
 	return var(val1.val/val2.val);
 }
 
@@ -207,30 +249,6 @@ var notOp(string& expr){
 	return var(!val.val);
 }
 
-using funcT=var(string&);
-using funcP=funcT*;
-using psf=pair<string,funcP>;
-psf operators[]={
-	psf("sum",		(funcP)sumOp),
-	psf("sub",		(funcP)subOp),
-	psf("mult",		(funcP)multOp),
-	psf("div",		(funcP)divOp),
-	psf("and",		(funcP)andOp),
-	psf("or",		(funcP)orOp),
-	psf("not",		(funcP)notOp),
-	psf("equals",	(funcP)eqOp),//equals
-	psf("eq",		(funcP)eqOp),//equals
-	psf("greater",	(funcP)gtOp),//greater then
-	psf("gt",		(funcP)gtOp),//greater then
-	psf("lessThen",	(funcP)ltOp),//less then
-	psf("lt",		(funcP)ltOp),//less then
-	psf("greaterEq",(funcP)geOp),//greater then or equals
-	psf("ge",		(funcP)geOp),//greater then or equals
-	psf("lessEq",	(funcP)leOp),//less then or equals
-	psf("le",		(funcP)leOp),//less then or equals
-};
-
-
 var runExpr(string& expr){
 	if(DEBUG)cout << "running " << expr << endl;
 	string start=get1stWord(expr);
@@ -247,8 +265,8 @@ var runExpr(string& expr){
 	}
 	else if(start=="def" || start=="define"){//declara uma função//define foo(int x,int y)=(x+y)
 		if(DEBUG)cout << "detected 'define' expression" << endl;
-		expr = expr.substr(get1stWordPos(expr).ss+2);
-		expr = expr.substr(0,expr.size()-1);
+		expr = expr.substr(get1stWordPos(expr).ss+1);
+		//cout << expr << endl;
 		return defineFunc(expr);
 	}
 	else if(funcs[start].name!=""){//função com esse nome esta declarada//foo(x,y)
