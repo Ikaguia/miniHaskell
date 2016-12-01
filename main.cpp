@@ -15,7 +15,7 @@ int main(){
 		else if(in=="clear")system("clear");
 		else if(in=="" || strStartsWith(in,"//"))continue;
 		else{
-			cout << endl << "in = " << in << endl;
+			if(DEBUG)cout << endl << "in = " << in << endl;
 			cout << runExpr(in).str() << endl;
 		}
 	}
