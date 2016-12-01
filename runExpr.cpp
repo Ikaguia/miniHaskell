@@ -1,5 +1,8 @@
 #include "header.hpp"
 
+map<string,miniHfunc> funcs;
+map<string,var> vars;
+
 using funcT=var(string&);
 using funcP=funcT*;
 using psf=pair<string,funcP>;
@@ -198,8 +201,8 @@ var multOp(string& expr){//int,int -> int
 var divOp(string& expr){//int,int -> int
 	var val1,val2;
 	getBinOperatorVals(expr,val1,val2);
-	if(val1.t!=error)return val1;
-	if(val2.t!=error)return val2;
+	if(val1.t==error)return val1;
+	if(val2.t==error)return val2;
 	if(val1.t!=tInt || val2.t!=tInt)return var();
 	if(val2.val==0)return var(error,div0Error);
 	return var(val1.val/val2.val);
@@ -208,8 +211,8 @@ var divOp(string& expr){//int,int -> int
 var andOp(string& expr){//bool,bool -> bool
 	var val1,val2;
 	getBinOperatorVals(expr,val1,val2);
-	if(val1.t!=error)return val1;
-	if(val2.t!=error)return val2;
+	if(val1.t==error)return val1;
+	if(val2.t==error)return val2;
 	if(val1.t!=tBool || val2.t!=tBool)return var();
 	return var(val1.val && val2.val);
 }
@@ -217,8 +220,8 @@ var andOp(string& expr){//bool,bool -> bool
 var orOp(string& expr){//bool,bool -> bool
 	var val1,val2;
 	getBinOperatorVals(expr,val1,val2);
-	if(val1.t!=error)return val1;
-	if(val2.t!=error)return val2;
+	if(val1.t==error)return val1;
+	if(val2.t==error)return val2;
 	if(val1.t!=tBool || val2.t!=tBool)return var();
 	return var(val1.val || val2.val);
 }
@@ -226,8 +229,8 @@ var orOp(string& expr){//bool,bool -> bool
 var eqOp(string& expr){//?,? -> bool
 	var val1,val2;
 	getBinOperatorVals(expr,val1,val2);
-	if(val1.t!=error)return val1;
-	if(val2.t!=error)return val2;
+	if(val1.t==error)return val1;
+	if(val2.t==error)return val2;
 	if(val1.t!=val2.t)return var();
 	return var(val1.val == val2.val);
 }
@@ -235,8 +238,8 @@ var eqOp(string& expr){//?,? -> bool
 var gtOp(string& expr){//int,int -> bool
 	var val1,val2;
 	getBinOperatorVals(expr,val1,val2);
-	if(val1.t!=error)return val1;
-	if(val2.t!=error)return val2;
+	if(val1.t==error)return val1;
+	if(val2.t==error)return val2;
 	if(val1.t!=tInt || val2.t!=tInt)return var();
 	return var(val1.val>val2.val);
 }
@@ -244,8 +247,8 @@ var gtOp(string& expr){//int,int -> bool
 var ltOp(string& expr){//int,int -> bool
 	var val1,val2;
 	getBinOperatorVals(expr,val1,val2);
-	if(val1.t!=error)return val1;
-	if(val2.t!=error)return val2;
+	if(val1.t==error)return val1;
+	if(val2.t==error)return val2;
 	if(val1.t!=tInt || val2.t!=tInt)return var();
 	return var(val1.val<val2.val);
 }
@@ -253,8 +256,8 @@ var ltOp(string& expr){//int,int -> bool
 var geOp(string& expr){//int,int -> bool
 	var val1,val2;
 	getBinOperatorVals(expr,val1,val2);
-	if(val1.t!=error)return val1;
-	if(val2.t!=error)return val2;
+	if(val1.t==error)return val1;
+	if(val2.t==error)return val2;
 	if(val1.t!=tInt || val2.t!=tInt)return var();
 	return var(val1.val>=val2.val);
 }
@@ -262,8 +265,8 @@ var geOp(string& expr){//int,int -> bool
 var leOp(string& expr){//int,int -> bool
 	var val1,val2;
 	getBinOperatorVals(expr,val1,val2);
-	if(val1.t!=error)return val1;
-	if(val2.t!=error)return val2;
+	if(val1.t==error)return val1;
+	if(val2.t==error)return val2;
 	if(val1.t!=tInt || val2.t!=tInt)return var();
 	return var(val1.val<=val2.val);
 }
@@ -271,7 +274,7 @@ var leOp(string& expr){//int,int -> bool
 
 var notOp(string& expr){
 	var val=runExpr(expr);
-	if(val.t!=error)return val;
+	if(val.t==error)return val;
 	if(val.t!=tBool)return var();
 	return var(!val.val);
 }
@@ -279,7 +282,7 @@ var notOp(string& expr){
 var runExpr(string& expr){
 	if(DEBUG)cout << "running " << expr << endl;
 	string start=get1stWord(expr);
-	if(DEBUG)cout << "start = " << start << endl;	
+	if(DEBUG)cout << "start = " << start << endl;
 	if(start=="let"){//definir um valor para uma variavel nesse escopo//let(x=10)in(expr)
 		if(DEBUG)cout << "detected 'let' expression" << endl;
 		expr = expr.substr(get1stWordPos(expr).ss);

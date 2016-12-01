@@ -6,7 +6,7 @@
 //#include <unistd.h>
 using namespace std;
 
-#define DEBUG true
+#define DEBUG false
 
 #define FOR(cont,max)			for(int (cont)=0;		(cont)<(int)(max);(cont)++)
 #define FOR2(cont,start,max)	for(int (cont)=(start);	(cont)<(int)(max);(cont)++)
@@ -99,5 +99,8 @@ extern var leOp(string& expr);
 //main
 extern map<string,miniHfunc> funcs;
 extern map<string,var> vars;
+
+// map<string,miniHfunc> funcs;
+// map<string,var> vars;
 
 #endif // miniHheader

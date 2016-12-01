@@ -1,7 +1,7 @@
 #include "header.hpp"
 
-map<string,miniHfunc> funcs;
-map<string,var> vars;
+// map<string,miniHfunc> funcs;
+// map<string,var> vars;
 
 int main(){
 	string in;
