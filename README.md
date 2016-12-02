@@ -4,12 +4,14 @@ Prof. Rodrigo Bonifário
 # MiniHaskell
 
 Alunos:
-1. Cristiano Cardoso 				15/0058349
-2. João Pedro Silva Sousa			15/0038381
-3. José Marcos da Silva Leite	15/0038810
-4. Cristiano Krug Brust				15/0008058
 
-O simulador do Game of Life foi escrito em C++ com intuito de haver mais um exemplo de implementação noutra linguagem orientada a objetos.
+1. Cristiano Cardoso 				15/0058349
+
+2. João Pedro Silva Sousa			15/0038381
+
+3. José Marcos da Silva Leite	15/0038810
+
+4. Cristiano Krug Brust				15/0008058
 
 Neste trabalho dividimos a equipe em duas. A primeira é formada pelos alunos de número 1 e 2 com o objetivo de desenvolver a solução do MiniHaskell proposta pelo professor. Enquanto que a segunda, decidiu refazer o interpretador em C++. 
 
