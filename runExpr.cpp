@@ -40,16 +40,17 @@ var runExpr(const string &s){
 		}
 	}
 	for(auto i:vars){
-		if(parse(s,i.ff,args));
-		if(DEBUG)cout << "called variable " << i.ff << endl;
-		return i.ss;
+		if(parse(s,i.ff,args)){
+			if(DEBUG)cout << "called variable " << i.ff << endl;
+			return i.ss;
+		}
 	}
-	if(parse(s,"true",args)){
+	if(lower_case(noSpaces(s))=="true"){
 		if(DEBUG)cout << "called true" << endl;
 		return var(true);
 	}
-	if(parse(s,"false",args)){
-		if(DEBUG)cout << "called true" << endl;
+	if(lower_case(noSpaces(s))=="false"){
+		if(DEBUG)cout << "called false" << endl;
 		return var(false);
 	}
 	if(s.find_first_not_of("0123456789 ")<=s.size())return var(error,invalidExprError);
