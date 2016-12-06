@@ -42,3 +42,54 @@ string upper_case(const string& in){
 	}
 	return out;
 }
+
+string noSpaces(string s){
+	string o="";
+	for(auto i:s){
+		if(i!=' ')o+=i;
+	}
+	return o;
+}
+
+bool parser(string s,string code,vector<string> &ret){
+	//cout << "parse " << s << " " << code << endl;
+	if(code.size()==0 && s.size()==0)return true;
+	if(code.size()==0 || s.size()==0)return false;
+	if(code[0]=='%' && code[1]=='s'){
+		FOR2(i,1,s.size()){
+			vector<string> r=ret;
+			r.push_back(s.substr(0,i));
+			if(parser(s.substr(i),code.substr(2),r)){
+				ret=r;
+				return true;
+			}
+		}
+	}
+	else if(code[0]=='%' && code[1]=='%'){
+		if(s[0]=='%')return parser(s.substr(2),code.substr(1),ret);
+		return false;
+	}
+	else if(code[0]==s[0]){
+		return parser(s.substr(1),code.substr(1),ret);
+	}
+	return false;
+
+
+
+	int a=code.find_first_of('%');
+	while((size_t)a+1<code.size()){
+		if(code[a+1]!='%')break;
+		code.find_first_of('%',a);
+	}
+	if((size_t)a+1>=code.size())return false;
+	if(s.substr(0,a)!=code.substr(0,a))return false;
+	return parser(s.substr(a),code.substr(a),ret);
+}
+
+bool parse(string s,string code,vector<string> &ret){
+	//code = "let(%s=%s)in(%s)"
+	s=noSpaces(s);
+	code=noSpaces(code);
+	if(DEBUG)cout << "parsing " << s << " with code " << code << endl;
+	return parser(s,code,ret);
+}

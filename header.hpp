@@ -6,7 +6,7 @@
 //#include <unistd.h>
 using namespace std;
 
-#define DEBUG false
+#define DEBUG true
 
 #define FOR(cont,max)			for(int (cont)=0;		(cont)<(int)(max);(cont)++)
 #define FOR2(cont,start,max)	for(int (cont)=(start);	(cont)<(int)(max);(cont)++)
@@ -26,6 +26,7 @@ typedef enum{
 	typeError,
 	reservedError,
 	div0Error,
+	invalidExprError,
 } errorID;
 const string errorMsgs[] = {
 	"ERROR",
@@ -33,6 +34,7 @@ const string errorMsgs[] = {
 	"ERROR invalid type",
 	"ERROR reserved words",
 	"ERROR division by 0",
+	"ERROR invalid expression",
 };
 const string reservedWords[] = {"int","bool","true","false","let","def","define"};
 
@@ -63,9 +65,9 @@ public:
 	string name;
 	vector<ts> args;
 	string body;
-	miniHfunc(string);
+	miniHfunc(vector<string>&);
 	miniHfunc();
-	var call(string,bool=false);
+	var call(string);
 };
 
 //utilFuncs
@@ -75,32 +77,48 @@ extern ii get1stWordPos(const string&,string ignore=" 	\n,.();\"\'=");
 extern string get1stWord(const string&,string ignore=" 	\n,.();\"\'=");
 extern string lower_case(const string&);
 extern string upper_case(const string&);
+extern string noSpaces(string);
+extern bool parse(string,string,vector<string>&);
+
+//operators
+using funcT=var(vector<string>&);
+using funcP=funcT*;
+class operat{
+public:
+	string name;
+	string code;
+	funcP func;
+	operat(string n,string c,funcP f):name{n},code{c},func{f}{}
+	var call(string s);
+};
+
+extern vector<operat> operators;
+extern var let(vector<string>			&expr);
+extern var ifThenElse(vector<string>	&expr);
+extern var define(vector<string>		&expr);
+extern var sumOp(vector<string>			&expr);
+extern var subOp(vector<string>			&expr);
+extern var multOp(vector<string>		&expr);
+extern var divOp(vector<string>			&expr);
+extern var andOp(vector<string>			&expr);
+extern var orOp(vector<string>			&expr);
+extern var notOp(vector<string>			&expr);
+extern var eqOp(vector<string>			&expr);
+extern var eqOp(vector<string>			&expr);
+extern var gtOp(vector<string>			&expr);
+extern var gtOp(vector<string>			&expr);
+extern var ltOp(vector<string>			&expr);
+extern var ltOp(vector<string>			&expr);
+extern var geOp(vector<string>			&expr);
+extern var geOp(vector<string>			&expr);
+extern var leOp(vector<string>			&expr);
+extern var leOp(vector<string>			&expr);
 
 //runExpr
-extern var runExpr(string& expr);
-extern var sumOp(string& expr);
-extern var subOp(string& expr);
-extern var multOp(string& expr);
-extern var divOp(string& expr);
-extern var andOp(string& expr);
-extern var orOp(string& expr);
-extern var notOp(string& expr);
-extern var eqOp(string& expr);
-extern var eqOp(string& expr);
-extern var gtOp(string& expr);
-extern var gtOp(string& expr);
-extern var ltOp(string& expr);
-extern var ltOp(string& expr);
-extern var geOp(string& expr);
-extern var geOp(string& expr);
-extern var leOp(string& expr);
-extern var leOp(string& expr);
+extern var runExpr(const string& expr);
 
 //main
 extern map<string,miniHfunc> funcs;
 extern map<string,var> vars;
-
-// map<string,miniHfunc> funcs;
-// map<string,var> vars;
 
 #endif // miniHheader

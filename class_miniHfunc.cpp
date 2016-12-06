@@ -1,35 +1,50 @@
 #include "header.hpp"
 
 miniHfunc::miniHfunc():name{""}{}
-miniHfunc::miniHfunc(string s){
-cout << "s " << s << endl;
+miniHfunc::miniHfunc(vector<string> &in){
+	name=in[0];
+	string a=in[1]+",end";
+	body=in[2];
 
-	auto open=s.find_first_of("(");
-	auto close=s.find_first_of(")");
-	name=s.substr(0,open);
-	string argStr=s.substr(open+1,close-open-1);
-cout << "name '" << name << "'" << endl;
-cout << "argStr '" << argStr << "'" << endl;
-	while(1){
-		if(argStr.size()==0)break;
-		string t=get1stWord(argStr);
-cout << "t '" << t << "'" << endl;
-		argStr = argStr.substr(get1stWordPos(argStr).ss);
-cout << "argStr2 '" << argStr << "'" << endl;
-		if(t=="int"){
-			args.push_back(ts(tInt,get1stWord(argStr)));
-			argStr = argStr.substr(get1stWordPos(argStr).ss);
-		}
-		else if(t=="bool"){
-			args.push_back(ts(tBool,get1stWord(argStr)));
-			argStr = argStr.substr(get1stWordPos(argStr).ss);
-		}
+	vector<string> v;
+	while(parse(a,"%s.%s,%s",v)){
+		if(v[0]=="int")args.push_back(ts(tInt,in[1]));
+		if(v[0]=="bool")args.push_back(ts(tBool,in[1]));
+		a=v[2];
 	}
-	s=s.substr(s.find_first_of("(",close));
-	body=s.substr(1,s.size()-2);
 }
 
-var miniHfunc::call(string s,bool print){
-	//assert(false);
-	return var(error,funcError);//todo
+vector<string> readArgs(string s){
+	vector<string> v;
+	return v;
+}
+
+var miniHfunc::call(string s){
+	/*vector<string> argsIn=readArgs(s);
+	map<string,var> mapV;
+
+	for(int i=0;(size_t)i<argsIn.size() && (size_t)i<args.size();i++){
+		const string& name=args.ss;
+		if(mapV[name].t!=error);
+		else if(vars[name].t!=error)mapV[name]=vars[name];//restore previous var value after this function ends
+		else                        mapV[name]=var(error);//remove this var after this function ends
+		var result=runExpr(argsIn[i]);
+		if(result.t!=args[i].ff)result=var(error,typeError);
+		if(result.t==error){
+			//error, restore variables and return error
+			for(auto i:mapV){
+				if(i.ss.t!=error)vars[i.ff]=i.ss;
+				else vars.erase(i.ff);
+			}
+			return result;
+		}
+		vars[name]=result;
+	}
+
+	var result = runExpr(body);
+	for(auto i:mapV){
+		if(i.ss.t!=error)vars[i.ff]=i.ss;
+		else vars.erase(i.ff);
+	}
+	return result;*/return var(error);
 }
