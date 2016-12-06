@@ -42,3 +42,79 @@ string upper_case(const string& in){
 	}
 	return out;
 }
+
+string noSpaces(const string &s){
+	string o="";
+	for(auto i:s){
+		if(i!=' ')o+=i;
+	}
+	return o;
+}
+
+int findMatching(const string s,char open,char close){
+	int deepth=0;
+	FOR(i,s.size()){
+		if(s[i]==open)deepth++;
+		if(s[i]==close)deepth--;
+		if(deepth<=0)return i;
+	}
+	return s.size();
+}
+
+bool parser(string s,string code,vector<string> &ret){
+	if(!DEBUG)cout << "parse '" << s << "' '" << code << "'" << endl;
+	if(code.size()==0 && s.size()==0)return true;
+	if(code.size()==0 || s.size()==0)return false;
+	if(code=="%s"){
+		ret.push_back(s);
+		return true;
+	}
+	if(code[0]=='%' && code[1]=='s'){
+		FOR2(i,1,s.size()){
+			i+=findMatching(s.substr(i-1),'(',')');
+			vector<string> r=ret;
+			r.push_back(s.substr(0,i));
+			if(parser(s.substr(i),code.substr(2),r)){
+				ret=r;
+				return true;
+			}
+		}
+	}
+	else if(code[0]=='%' && code[1]=='%'){
+		if(s[0]=='%')return parser(s.substr(2),code.substr(1),ret);
+		return false;
+	}
+	else if(code[0]==s[0]){
+		return parser(s.substr(1),code.substr(1),ret);
+	}
+	return false;
+
+
+
+	int a=code.find_first_of('%');
+	while((size_t)a+1<code.size()){
+		if(code[a+1]!='%')break;
+		code.find_first_of('%',a);
+	}
+	if((size_t)a+1>=code.size())return false;
+	if(s.substr(0,a)!=code.substr(0,a))return false;
+	return parser(s.substr(a),code.substr(a),ret);
+}
+
+bool parse(string s,string code,vector<string> &ret){
+	//code = "let(%s=%s)in(%s)"
+	s=noSpaces(s);
+	code=noSpaces(code);
+	if(DEBUG)cout << "parsing " << s << " with code " << code << endl;
+	return parser(s,code,ret);
+}
+
+bool isReserved(const string& s){
+	for(auto i:reservedWords)if(i==s){
+		return true;
+	}
+	for(auto i:operators)if(i.name==s){
+		return true;
+	}
+	return false;
+}

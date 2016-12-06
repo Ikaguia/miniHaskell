@@ -6,10 +6,12 @@
 //#include <unistd.h>
 using namespace std;
 
-#define DEBUG true
+#define DEBUG false
 
-#define FOR(cont,max)			for(int (cont)=0;		(cont)<(int)(max);(cont)++)
-#define FOR2(cont,start,max)	for(int (cont)=(start);	(cont)<(int)(max);(cont)++)
+#define FOR(cont,max)			for(int (cont)=0;		(cont)<(int)(max);	 (cont)++)
+#define FOR2(cont,start,max)	for(int (cont)=(start);	(cont)<(int)(max);	 (cont)++)
+#define FORI(cont,max)			for(int (cont)=(max)-1;	(cont)>=0;			 (cont)++)
+#define FOR2I(cont,start,max)	for(int (cont)=(max)-1;	(cont)>=(int)(start);(cont)++)
 #define BETWEEN(x,a,b)			(((x)>=(a)) && ((x)<(b)))
 #define SWAP(a,b)				int _temp_=(a);(a)=(b);(b)=_temp_;
 #define RAND(max)				(rand()%(max))
@@ -26,6 +28,7 @@ typedef enum{
 	typeError,
 	reservedError,
 	div0Error,
+	parsingError,
 } errorID;
 const string errorMsgs[] = {
 	"ERROR",
@@ -33,6 +36,7 @@ const string errorMsgs[] = {
 	"ERROR invalid type",
 	"ERROR reserved words",
 	"ERROR division by 0",
+	"ERROR no matching expression found",
 };
 const string reservedWords[] = {"int","bool","true","false","let","def","define"};
 
@@ -63,9 +67,9 @@ public:
 	string name;
 	vector<ts> args;
 	string body;
-	miniHfunc(string);
+	miniHfunc(const string&,const vector<ts>&,const string&);
 	miniHfunc();
-	var call(string,bool=false);
+	var call(string);
 };
 
 //utilFuncs
@@ -75,26 +79,46 @@ extern ii get1stWordPos(const string&,string ignore=" 	\n,.();\"\'=");
 extern string get1stWord(const string&,string ignore=" 	\n,.();\"\'=");
 extern string lower_case(const string&);
 extern string upper_case(const string&);
+extern string noSpaces(const string&);
+extern bool parse(string,string,vector<string>&);
+extern bool isReserved(const string&);
+
+//operators
+using funcT=var(vector<string>&);
+using funcP=funcT*;
+class operat{
+public:
+	string name;
+	string code;
+	funcP func;
+	operat(string n,string c,funcP f):name{n},code{c},func{f}{}
+	var call(string s);
+};
+
+extern vector<operat> operators;
+extern var let(vector<string>			&expr);
+extern var ifThenElse(vector<string>	&expr);
+extern var define(vector<string>		&expr);
+extern var sumOp(vector<string>			&expr);
+extern var subOp(vector<string>			&expr);
+extern var multOp(vector<string>		&expr);
+extern var divOp(vector<string>			&expr);
+extern var andOp(vector<string>			&expr);
+extern var orOp(vector<string>			&expr);
+extern var notOp(vector<string>			&expr);
+extern var eqOp(vector<string>			&expr);
+extern var eqOp(vector<string>			&expr);
+extern var gtOp(vector<string>			&expr);
+extern var gtOp(vector<string>			&expr);
+extern var ltOp(vector<string>			&expr);
+extern var ltOp(vector<string>			&expr);
+extern var geOp(vector<string>			&expr);
+extern var geOp(vector<string>			&expr);
+extern var leOp(vector<string>			&expr);
+extern var leOp(vector<string>			&expr);
 
 //runExpr
-extern var runExpr(string& expr);
-extern var sumOp(string& expr);
-extern var subOp(string& expr);
-extern var multOp(string& expr);
-extern var divOp(string& expr);
-extern var andOp(string& expr);
-extern var orOp(string& expr);
-extern var notOp(string& expr);
-extern var eqOp(string& expr);
-extern var eqOp(string& expr);
-extern var gtOp(string& expr);
-extern var gtOp(string& expr);
-extern var ltOp(string& expr);
-extern var ltOp(string& expr);
-extern var geOp(string& expr);
-extern var geOp(string& expr);
-extern var leOp(string& expr);
-extern var leOp(string& expr);
+extern var runExpr(const string& expr);
 
 //main
 extern map<string,miniHfunc> funcs;

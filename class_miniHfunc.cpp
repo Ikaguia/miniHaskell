@@ -1,35 +1,25 @@
 #include "header.hpp"
 
 miniHfunc::miniHfunc():name{""}{}
-miniHfunc::miniHfunc(string s){
-cout << "s " << s << endl;
+miniHfunc::miniHfunc(const string &n,const vector<ts> &ar,const string& b):name{n},args{ar},body{b}{};
 
-	auto open=s.find_first_of("(");
-	auto close=s.find_first_of(")");
-	name=s.substr(0,open);
-	string argStr=s.substr(open+1,close-open-1);
-cout << "name '" << name << "'" << endl;
-cout << "argStr '" << argStr << "'" << endl;
-	while(1){
-		if(argStr.size()==0)break;
-		string t=get1stWord(argStr);
-cout << "t '" << t << "'" << endl;
-		argStr = argStr.substr(get1stWordPos(argStr).ss);
-cout << "argStr2 '" << argStr << "'" << endl;
-		if(t=="int"){
-			args.push_back(ts(tInt,get1stWord(argStr)));
-			argStr = argStr.substr(get1stWordPos(argStr).ss);
-		}
-		else if(t=="bool"){
-			args.push_back(ts(tBool,get1stWord(argStr)));
-			argStr = argStr.substr(get1stWordPos(argStr).ss);
-		}
+var miniHfunc::call(string s){
+	string code="";
+	string expr=body;
+	FOR(i,args.size()){
+		if(i)code+=",";
+		code+="%s";
 	}
-	s=s.substr(s.find_first_of("(",close));
-	body=s.substr(1,s.size()-2);
-}
+	vector<string> vs;
+	vector<var> vv;
+	cout << "code = " << code << endl;
+	parse(s,code,vs);
+	cout << args.size() << endl;
+	FOR(i,args.size()){
+		vv.push_back(runExpr(vs[i]));
+		if(vv[i].t!=args[i].ff)return var(error,typeError);
+		expr="let("+args[i].ss+"="+vv[i].str()+")in("+expr+")";
+	}
 
-var miniHfunc::call(string s,bool print){
-	//assert(false);
-	return var(error,funcError);//todo
+	return runExpr(expr);
 }
