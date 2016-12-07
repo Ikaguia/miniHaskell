@@ -10,6 +10,7 @@ var operat::call(string s){
 var let(vector<string> &in){
 
 	if(isReserved(in[0]))return var(error,reservedError);
+	if(!letter(in[0][0]) || !alphaNumeric(in[0]))return var(error,invalidNameError);
 
 	var before=vars[in[0]];
 
@@ -42,15 +43,16 @@ var define(vector<string> &in){
 	vector<string> v;
 	vector<ts> args;
 	while(parse(a,"%s.%s,%s",v)){
-		cout << v[0] << " " << v[1] << " " << v[2] << endl;
+		//cout << v[0] << " " << v[1] << " " << v[2] << endl;
 		if(isReserved(v[2]))return var(error,reservedError);
+		if(!letter(v[2][0]) || !alphaNumeric(v[2]))return var(error,invalidNameError);
 		if(v[0]=="int")args.push_back(ts(tInt,v[1]));
 		if(v[0]=="bool")args.push_back(ts(tBool,v[1]));
 		a=v[2];
 	}
 	miniHfunc f(in[0],args,in[2]);
 	funcs[f.name]=f;
-	cout << "'" << f.name << "'" << endl;
+	//cout << "'" << f.name << "'" << endl;
 	return var(success);
 }
 

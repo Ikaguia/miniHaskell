@@ -29,6 +29,7 @@ typedef enum{
 	reservedError,
 	div0Error,
 	parsingError,
+	invalidNameError,
 } errorID;
 const string errorMsgs[] = {
 	"ERROR",
@@ -37,6 +38,7 @@ const string errorMsgs[] = {
 	"ERROR reserved words",
 	"ERROR division by 0",
 	"ERROR no matching expression found",
+	"ERROR invalid variable name",
 };
 const string reservedWords[] = {"int","bool","true","false","let","def","define"};
 
@@ -82,6 +84,12 @@ extern string upper_case(const string&);
 extern string noSpaces(const string&);
 extern bool parse(string,string,vector<string>&);
 extern bool isReserved(const string&);
+extern bool letter(const string&);
+extern bool letter(const char);
+extern bool number(const string&);
+extern bool number(const char);
+extern bool alphanumeric(const string&);
+extern bool alphanumeric(const char);
 
 //operators
 using funcT=var(vector<string>&);

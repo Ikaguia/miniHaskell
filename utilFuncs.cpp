@@ -62,7 +62,7 @@ int findMatching(const string s,char open,char close){
 }
 
 bool parser(string s,string code,vector<string> &ret){
-	if(!DEBUG)cout << "parse '" << s << "' '" << code << "'" << endl;
+	if(DEBUG)cout << "parse '" << s << "' '" << code << "'" << endl;
 	if(code.size()==0 && s.size()==0)return true;
 	if(code.size()==0 || s.size()==0)return false;
 	if(code=="%s"){
@@ -71,7 +71,10 @@ bool parser(string s,string code,vector<string> &ret){
 	}
 	if(code[0]=='%' && code[1]=='s'){
 		FOR2(i,1,s.size()){
-			i+=findMatching(s.substr(i-1),'(',')');
+			while(s[i]=='(' || s[i]=='['){
+				i+=findMatching(s.substr(i-1),'(',')');
+				i+=findMatching(s.substr(i-1),'[',']');
+			}
 			vector<string> r=ret;
 			r.push_back(s.substr(0,i));
 			if(parser(s.substr(i),code.substr(2),r)){
@@ -116,5 +119,39 @@ bool isReserved(const string& s){
 	for(auto i:operators)if(i.name==s){
 		return true;
 	}
+	return false;
+}
+
+bool letter(const string &s){
+	for(auto i:s)if(!letter(i))return false;
+	return true;
+}
+
+bool letter(const char c){
+	//string letters="abcdefghijklmnopqrstuvwxyz";
+	//for(auto i:letters)if(c==i)return true;
+	//return false;
+	return (c>='a' && c<='z') || (c>='A' && c<='Z');
+}
+
+bool number(const string &s){
+	for(auto i:s)if(!number(i))return false;
+	return true;
+}
+
+bool number(const char c){
+	//string numbers="0123456789";
+	//for(auto i:numbers)if(c==i)return true;
+	//return false;
+	return (c>='0' && c<='9');
+}
+
+bool alphanumeric(const string &s){
+	for(auto i:s)if(!alphanumeric(i))return false;
+	return true;
+}
+
+bool alphanumeric(const char c){
+	if(number(c) || letter(c))return true;
 	return false;
 }

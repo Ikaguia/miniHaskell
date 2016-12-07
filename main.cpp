@@ -4,9 +4,11 @@ map<string,miniHfunc> funcs;
 map<string,var> vars;
 
 int main(){
-	vector<string> v;
-	cout << parse("let(x=10)in(x)","let(%s=%s)in(%s)",v) << endl;
-	for(auto i:v)cout << i << endl;
+	if(DEBUG){
+		vector<string> v;
+		cout << parse("let(x=10)in(x)","let(%s=%s)in(%s)",v) << endl;
+		for(auto i:v)cout << i << endl;
+	}
 
 	string in;
 

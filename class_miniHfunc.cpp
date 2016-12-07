@@ -12,9 +12,9 @@ var miniHfunc::call(string s){
 	}
 	vector<string> vs;
 	vector<var> vv;
-	cout << "code = " << code << endl;
+	//cout << "code = " << code << endl;
 	parse(s,code,vs);
-	cout << args.size() << endl;
+	//cout << args.size() << endl;
 	FOR(i,args.size()){
 		vv.push_back(runExpr(vs[i]));
 		if(vv[i].t!=args[i].ff)return var(error,typeError);
