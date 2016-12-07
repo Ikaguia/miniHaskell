@@ -52,6 +52,7 @@ string noSpaces(const string &s){
 }
 
 int findMatching(const string s,char open,char close){
+	if(DEBUG)cout << "findMatching " << s << " " << open << " " << close << endl;
 	int deepth=0;
 	FOR(i,s.size()){
 		if(s[i]==open)deepth++;
@@ -62,19 +63,30 @@ int findMatching(const string s,char open,char close){
 }
 
 bool parser(string s,string code,vector<string> &ret){
-	if(DEBUG)cout << "parse '" << s << "' '" << code << "'" << endl;
+	if(DEBUG)cout << "parse '" << s << "' '" << code << "'";
+	if(DEBUG)for(auto i:ret)cout << " " << i;
+	if(DEBUG)cout << endl;
 	if(code.size()==0 && s.size()==0)return true;
 	if(code.size()==0 || s.size()==0)return false;
 	if(code=="%s"){
 		ret.push_back(s);
 		return true;
 	}
-	if(code[0]=='%' && code[1]=='s'){
+	//cout << "aaa " << (code[0]=='%') << " " << (code[1]=='s') << endl;
+	if((code[0]=='%') && (code[1]=='s')){
 		FOR2(i,1,s.size()){
-			while(s[i]=='(' || s[i]=='['){
-				i+=findMatching(s.substr(i-1),'(',')');
-				i+=findMatching(s.substr(i-1),'[',']');
-			}
+			//define(foo(a)=(a)) define(%s(%s)=(%s))
+			//foo(a)=(a)) %s(%s)=(%s))
+	
+			//cout << "batata" << endl;
+			//(a)
+			//aaa(bbb(ccc)),ddd
+			//while(s[i]=='(' || s[i]=='['){
+			//	if(s[i]=='(')i+=findMatching(s.substr(i),'(',')')+1;
+			//	if(s[i]=='[')i+=findMatching(s.substr(i),'[',']')+1;
+			//}
+			//cout << "trying i=" << i << endl;
+			if(s[i]=='(' && code[2]!='(')i+=findMatching(s.substr(i),'(',')')+1;
 			vector<string> r=ret;
 			r.push_back(s.substr(0,i));
 			if(parser(s.substr(i),code.substr(2),r)){
@@ -91,21 +103,11 @@ bool parser(string s,string code,vector<string> &ret){
 		return parser(s.substr(1),code.substr(1),ret);
 	}
 	return false;
-
-
-
-	int a=code.find_first_of('%');
-	while((size_t)a+1<code.size()){
-		if(code[a+1]!='%')break;
-		code.find_first_of('%',a);
-	}
-	if((size_t)a+1>=code.size())return false;
-	if(s.substr(0,a)!=code.substr(0,a))return false;
-	return parser(s.substr(a),code.substr(a),ret);
 }
 
 bool parse(string s,string code,vector<string> &ret){
 	//code = "let(%s=%s)in(%s)"
+	ret.clear();
 	s=noSpaces(s);
 	code=noSpaces(code);
 	if(DEBUG)cout << "parsing " << s << " with code " << code << endl;
@@ -127,10 +129,7 @@ bool letter(const string &s){
 	return true;
 }
 
-bool letter(const char c){
-	//string letters="abcdefghijklmnopqrstuvwxyz";
-	//for(auto i:letters)if(c==i)return true;
-	//return false;
+bool letter(char c){
 	return (c>='a' && c<='z') || (c>='A' && c<='Z');
 }
 
@@ -139,19 +138,15 @@ bool number(const string &s){
 	return true;
 }
 
-bool number(const char c){
-	//string numbers="0123456789";
-	//for(auto i:numbers)if(c==i)return true;
-	//return false;
+bool number(char c){
 	return (c>='0' && c<='9');
 }
 
-bool alphanumeric(const string &s){
-	for(auto i:s)if(!alphanumeric(i))return false;
+bool alphaNumeric(const string &s){
+	for(auto i:s)if(!alphaNumeric(i))return false;
 	return true;
 }
 
-bool alphanumeric(const char c){
-	if(number(c) || letter(c))return true;
-	return false;
+bool alphaNumeric(char c){
+	return (number(c) || letter(c));
 }

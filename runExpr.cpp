@@ -21,6 +21,9 @@ vector<operat> operators={
 	operat("ge",		"ge(%s,%s)",				(funcP)geOp),//greater then or equals
 	operat("lessEq",	"lessEq(%s,%s)",			(funcP)leOp),//less then or equals
 	operat("le",		"le(%s,%s)",				(funcP)leOp),//less then or equals
+	operat("empty",		"listEmpty(%s)",				(funcP)listEmptyOp),//list is empty
+	operat("head",		"listHead(%s)",					(funcP)listHeadOp),//retrieve list head
+	operat("tail",		"listTail(%s)",					(funcP)listTailOp),//retrieve list tail
 };
 
 var runExpr(const string &s){
@@ -44,6 +47,37 @@ var runExpr(const string &s){
 			if(DEBUG)cout << "called variable " << i.ff << endl;
 			return i.ss;
 		}
+	}
+	if(parse(s,"list%s[%s]",args)){
+		type t=error,t2;
+		if(args[0]=="Int"){
+			t=tInt;
+			t2=listInt;
+		}
+		else if(args[0]=="Bool"){
+			t=tBool;
+			t2=listBool;
+		}
+		if(t!=error){
+			var temp;
+			vector<int> v;
+			vector<string> ss;
+			string in=args[1]+",end";
+			while(parse(in,"%s,%s",ss)){
+				temp = runExpr(ss[0]);
+				if(temp.t==error)return temp;
+				if(temp.t!=t)return var(error,typeError);
+				v.push_back(temp.val);
+				in=ss[1];
+			}
+			if(DEBUG)cout << "called list" << endl;
+			return var(t2,v);
+		}
+	}
+	if(parse(s,"list%s[]",args)){
+		vector<int> v;
+		if     (args[0]=="Int" )return var(listInt, v);
+		else if(args[0]=="Bool")return var(listBool,v);
 	}
 	if(lower_case(noSpaces(s))=="true"){
 		if(DEBUG)cout << "called true" << endl;

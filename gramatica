@@ -7,6 +7,9 @@ let(%s=%s)in(%s)                  var_name expr expr -> expr
 %s(%s,%s...)                      type_a type_b ... -> ?
 %s                                var_name -> type_a
 
+listInt[%s,%s...]                 int_a,int_b... -> listInt
+listBool[%s,%s...]                bool_a,bool_b... -> listBool
+
 sum(%s,%s)                        int int -> int
 sub(%s,%s)                        int int -> int
 mult(%s,%s)                       int int -> int

@@ -48,6 +48,8 @@ var define(vector<string> &in){
 		if(!letter(v[2][0]) || !alphaNumeric(v[2]))return var(error,invalidNameError);
 		if(v[0]=="int")args.push_back(ts(tInt,v[1]));
 		if(v[0]=="bool")args.push_back(ts(tBool,v[1]));
+		if(v[0]=="listInt")args.push_back(ts(listInt,v[1]));
+		if(v[0]=="listBool")args.push_back(ts(listBool,v[1]));
 		a=v[2];
 	}
 	miniHfunc f(in[0],args,in[2]);
@@ -161,4 +163,30 @@ var notOp(vector<string> &in){//bool -> bool
 	if(esq.t==error)return esq;
 	if(esq.t!=tBool)return var(error,typeError);
 	return !esq.val;
+}
+
+var listEmptyOp(vector<string> &in){//list -> bool
+	var esq=runExpr(in[0]);
+	if(esq.t==error)return esq;
+	if(esq.t!=listBool && esq.t!=listInt)return var(error,typeError);
+	return var(esq.li.size()>0);
+}
+
+var listHeadOp(vector<string> &in){//listInt -> int/listBool -> bool
+	var esq=runExpr(in[0]);
+	if(esq.t==error)return esq;
+	if(esq.t!=listBool && esq.t!=listInt)return var(error,typeError);
+	if(!esq.li.size())return var(error,emptyListtError);
+	return var(esq.li[0]);
+}
+
+var listTailOp(vector<string> &in){//list -> list
+	var esq=runExpr(in[0]);
+	if(esq.t==error)return esq;
+	if(esq.t!=listBool && esq.t!=listInt)return var(error,typeError);
+	if(!esq.li.size())return var(error,emptyListtError);
+	auto begin = esq.li.begin()+1;
+	auto end = esq.li.end();
+	esq.li=vector<int>(begin,end);
+	return esq;
 }

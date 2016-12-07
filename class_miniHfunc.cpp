@@ -17,6 +17,8 @@ var miniHfunc::call(string s){
 	//cout << args.size() << endl;
 	FOR(i,args.size()){
 		vv.push_back(runExpr(vs[i]));
+		if(DEBUG)cout << "passed arg[" << i << "] = " << vs[i] << " with type " << vv[i].t << endl;
+		if(DEBUG)cout << "expected arg[" << i << "] with type " << args[i].ff << endl;
 		if(vv[i].t!=args[i].ff)return var(error,typeError);
 		expr="let("+args[i].ss+"="+vv[i].str()+")in("+expr+")";
 	}
