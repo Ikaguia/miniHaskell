@@ -4,7 +4,7 @@ miniHfunc::miniHfunc():name{""}{}
 miniHfunc::miniHfunc(const string &n,const vector<ts> &ar,const string& b):name{n},args{ar},body{b}{};
 
 var miniHfunc::call(string s){
-	string code="";
+	/*string code="";
 	string expr=body;
 	FOR(i,args.size()){
 		if(i)code+=",";
@@ -23,5 +23,6 @@ var miniHfunc::call(string s){
 		expr="let("+args[i].ss+"="+vv[i].str()+")in("+expr+")";
 	}
 
-	return runExpr(expr);
+	return runExpr(expr);*/
+	return var(error);
 }

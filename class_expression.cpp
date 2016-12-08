@@ -1,6 +1,6 @@
 #include "header.hpp"
 
-virtual var ifThenElse::runExpr(){
+var ifThenElse::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esq=cond->runExpr();//if
 	if(esq.t==error)return esq;
@@ -11,7 +11,7 @@ virtual var ifThenElse::runExpr(){
 }
 
 
-virtual var let::runExpr(){
+var let::runExpr(){
 	var newVar=newExp->runExpr();  //get new value
 	if(newVar.t==error)return newVar;//return error
 
@@ -21,18 +21,18 @@ virtual var let::runExpr(){
 	var ret=in->runExpr();//run the expression
 
 	if(oldVar.t!=error)vars[name]=oldVar;//restore previous variable
-	else vars.remove(name);              //or just remove it if there was none before
+	else vars.erase(name);               //or just erase it if there was none before
 
 	return ret;
 }
 
 
-virtual var define::runExpr(){
+var define::runExpr(){
 	return var(error);//TODO
 }
 
 
-virtual var sum::runExpr(){
+var sum::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	var dirVar=dir->runExpr();
@@ -42,7 +42,7 @@ virtual var sum::runExpr(){
 }
 
 
-virtual var sub::runExpr(){
+var sub::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	var dirVar=dir->runExpr();
@@ -52,11 +52,7 @@ virtual var sub::runExpr(){
 }
 
 
-mult::mult(expression* esq,expression* dir){
-	filhos.push_back(esq);
-	filhos.push_back(dir);
-}
-virtual var mult::runExpr(){
+var mult::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	var dirVar=dir->runExpr();
@@ -66,7 +62,7 @@ virtual var mult::runExpr(){
 }
 
 
-virtual var div::runExpr(){
+var div::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	var dirVar=dir->runExpr();

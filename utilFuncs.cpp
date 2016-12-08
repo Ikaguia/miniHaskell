@@ -120,9 +120,9 @@ bool isReserved(const string& s){
 	for(auto i:reservedWords)if(i==s){
 		return true;
 	}
-	for(auto i:operators)if(i.name==s){
+	/*for(auto i:operators)if(i.name==s){
 		return true;
-	}
+	}*/
 	return false;
 }
 

@@ -2,7 +2,6 @@
 #define miniHheader
 
 #include <bits/stdc++.h>
-#include "expression_header.hpp"
 //#include <math.h>
 //#include <unistd.h>
 using namespace std;
@@ -95,4 +94,10 @@ extern bool alphaNumeric(char);
 extern map<string,miniHfunc> funcs;
 extern map<string,var> vars;
 
+#include "expression_header.hpp"
+
+//ast_builder
+extern expression* builder(string);
+
 #endif // miniHheader
+

@@ -3,7 +3,7 @@
 map<string,miniHfunc> funcs;
 map<string,var> vars;
 
-int main(){
+int main(){/*
 	if(DEBUG){
 		vector<string> v;
 		cout << parse("let(x=10)in(x)","let(%s=%s)in(%s)",v) << endl;
@@ -24,6 +24,7 @@ int main(){
 			cout << endl << "in = " << in << endl;
 			cout << runExpr(in).str() << endl;
 		}
-	}
+	}*/
+	builder("a");
 	return 0;
 }
