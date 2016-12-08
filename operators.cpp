@@ -2,7 +2,17 @@
 
 var operat::call(string s){
 	vector<string> v;
-	if(parse(s,code,v))return func(v);
+	if(parse(s,code,v)){
+		var result=func(v);
+		if(DEBUG){
+			cout << "called operator " << name << " with args (";
+			for(auto i:v)cout << i << " ";
+			cout << ") with vars(";
+			for(auto i:vars)cout << "'" << i.ff << "'='"<< i.ss.str() << "' ";
+			cout << ") returned " << result.str() << endl;
+		}
+		return result;
+	}
 	if(DEBUG)cout << "parse failed" << endl;
 	return var(error,parsingError);
 }
@@ -31,9 +41,14 @@ var ifThenElse(vector<string> &in){
 	var then=runExpr(in[1]);
 	var els =runExpr(in[2]);
 	if(cond.t==error)return cond;
+	/* essa versão foi removida pois fica impossivel declarar funções do tipo
+	foo(listInt l)=(if(listEmpty)then(0)else(sum(listHeader(l),foo(listTail(l)))))//função que retorna a soma de todos os elementos de uma lista de inteiros
+	pois o tipo retornado por listHeader de uma lista vazia é error
 	if(then.t==error)return then;
 	if(els.t==error)return els;
 	if(cond.t!=tBool || then.t!=els.t)return var(error,typeError);
+	if(cond.val)return then;
+	return els;*/
 	if(cond.val)return then;
 	return els;
 }
@@ -169,7 +184,7 @@ var listEmptyOp(vector<string> &in){//list -> bool
 	var esq=runExpr(in[0]);
 	if(esq.t==error)return esq;
 	if(esq.t!=listBool && esq.t!=listInt)return var(error,typeError);
-	return var(esq.li.size()>0);
+	return var(esq.li.size()==0);
 }
 
 var listHeadOp(vector<string> &in){//listInt -> int/listBool -> bool
@@ -189,4 +204,15 @@ var listTailOp(vector<string> &in){//list -> list
 	auto end = esq.li.end();
 	esq.li=vector<int>(begin,end);
 	return esq;
+}
+
+var listMergeOp(vector<string> &in){//int listInt -> listInt/bool listBool -> listBool
+	var esq=runExpr(in[0]);
+	var dir=runExpr(in[1]);
+	//cout << "esq.t=" << esq.t << " dir.t=" << dir.t << endl;
+	if(esq.t==error)return esq;
+	if(dir.t==error)return dir;
+	if(!(esq.t==tBool && dir.t==listBool) && !(esq.t==tInt && dir.t==listInt))return var(error,typeError);
+	dir.li.insert(dir.li.begin(),esq.val);
+	return dir;
 }

@@ -63,9 +63,11 @@ int findMatching(const string s,char open,char close){
 }
 
 bool parser(string s,string code,vector<string> &ret){
-	if(DEBUG)cout << "parse '" << s << "' '" << code << "'";
-	if(DEBUG)for(auto i:ret)cout << " " << i;
-	if(DEBUG)cout << endl;
+	if(DEBUG){
+		cout << "parse '" << s << "' '" << code << "'";
+		for(auto i:ret)cout << " " << i;
+		cout << endl;
+	}
 	if(code.size()==0 && s.size()==0)return true;
 	if(code.size()==0 || s.size()==0)return false;
 	if(code=="%s"){

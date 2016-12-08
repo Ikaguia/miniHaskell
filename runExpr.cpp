@@ -21,9 +21,10 @@ vector<operat> operators={
 	operat("ge",		"ge(%s,%s)",				(funcP)geOp),//greater then or equals
 	operat("lessEq",	"lessEq(%s,%s)",			(funcP)leOp),//less then or equals
 	operat("le",		"le(%s,%s)",				(funcP)leOp),//less then or equals
-	operat("empty",		"listEmpty(%s)",				(funcP)listEmptyOp),//list is empty
-	operat("head",		"listHead(%s)",					(funcP)listHeadOp),//retrieve list head
-	operat("tail",		"listTail(%s)",					(funcP)listTailOp),//retrieve list tail
+	operat("empty",		"listEmpty(%s)",			(funcP)listEmptyOp),//list is empty
+	operat("head",		"listHead(%s)",				(funcP)listHeadOp),//retrieve list head
+	operat("tail",		"listTail(%s)",				(funcP)listTailOp),//retrieve list tail
+	operat("merge",		"listMerge(%s,%s)",			(funcP)listMergeOp),//merges an element into a list
 };
 
 var runExpr(const string &s){
@@ -32,7 +33,6 @@ var runExpr(const string &s){
 	for(auto i:operators){
 		result = i.call(s);
 		if(result.t!=error || result.val!=parsingError){
-			if(DEBUG)cout << "called operator " << i.name << endl;
 			return result;
 		}
 	}

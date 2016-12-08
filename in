@@ -1,5 +1,25 @@
+let(x=sum(10,15))in(sum(x,let(x=5)in(x)))
+
+let(x=9)in(sum(x,let(x=3)in(x)))
+
+div(5,0)
+
+let(x=1)in(let(y=2)in(equals(not(gt(x,y)),le(x,y))))
+
+define(foo(int.x)=(x))
+
+foo(2)
+
+let(x=foo(1))in(x)
+
+listInt[1,2,3]
+
+listBool[true,true,true]
+
 define(totList(listInt.l)=(if(listEmpty(l))then(0)else(sum(listHead(l),totList(listTail(l))))))
 
 totList(listInt[1,2,3,4])
+
+listMerge(1,listInt[2,3,4])
 
 exit
