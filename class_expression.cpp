@@ -1,12 +1,15 @@
 #include "header.hpp"
 
-var integerList::runExpr(){
+var integerListExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 
 	var h=head->runExpr();
 	if(h.t==error)return h;
 
-	if(!tail)return var(listInt,vector<int>(1,h.val);)
+	if(!tail){
+		vector<int> v(1,h.val);
+		return var(listInt,v);
+	}
 
 	var t=tail->runExpr();
 	if(t.t==error)return t;
@@ -16,13 +19,16 @@ var integerList::runExpr(){
 }
 
 
-var booleanList::runExpr(){
+var booleanListExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 
 	var h=head->runExpr();
 	if(h.t==error)return h;
 
-	if(!tail)return var(listBool,vector<int>(1,h.val);)
+	if(!tail){
+		vector<int> v(1,h.val);
+		return var(listBool,v);
+	}
 
 	var t=tail->runExpr();
 	if(t.t==error)return t;
@@ -32,7 +38,7 @@ var booleanList::runExpr(){
 }
 
 
-var ifThenElse::runExpr(){
+var ifThenElseExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esq=cond->runExpr();//if
 	if(esq.t==error)return esq;
@@ -43,7 +49,7 @@ var ifThenElse::runExpr(){
 }
 
 
-var let::runExpr(){
+var letExpression::runExpr(){
 	if(isReserved(name))return var(error,reservedError);
 	if(!letter(name[0]) || !alphaNumeric(name))return var(error,invalidNameError);
 	//for(auto i:vars)if(name==i.ff)return var(error,invalidNameError);
@@ -64,7 +70,7 @@ var let::runExpr(){
 }
 
 
-var define::runExpr(){
+var defineExpression::runExpr(){
 	if(isReserved(name))return var(error,reservedError);
 	if(!letter(name[0]) || !alphaNumeric(name))return var(error,invalidNameError);
 	for(auto i:vars)if(name==i.ff)return var(error,invalidNameError);
@@ -73,7 +79,7 @@ var define::runExpr(){
 	string s=args+",end";
 	vector<string> v;
 	vector<ts> argV;
-	while(parse(a,"%s.%s,%s",v)){
+	while(parse(s,"%s.%s,%s",v)){
 
 		if(isReserved(v[1]))return var(error,reservedError);
 		if(!letter(v[1][0]) || !alphaNumeric(v[1]))return var(error,invalidNameError);
@@ -84,7 +90,7 @@ var define::runExpr(){
 		if(v[0]=="bool")argV.push_back(ts(tBool,v[1]));
 		if(v[0]=="listInt")argV.push_back(ts(listInt,v[1]));
 		if(v[0]=="listBool")argV.push_back(ts(listBool,v[1]));
-		a=v[2];
+		s=v[2];
 	}
 	miniHfunc f(name,argV,body);
 	funcs[f.name]=f;
@@ -93,19 +99,19 @@ var define::runExpr(){
 }
 
 
-bool function::typeCheck(){
+bool functionExpression::typeCheck(){
 	FOR(i,args.size()){
-		if(args[i]->retType()!=func->args[i].ff)return false;
+		if(args[i]->retType()!=func.args[i].ff)return false;
 	}
 	return true;
 }
 
-var function::runExpr(){
-	if(args.size()!=func->args.size())return var(error,argCountError);
+var functionExpression::runExpr(){
+	if(args.size()!=func.args.size())return var(error,argCountError);
 	if(!typeCheck())return var(error,typeError);
 	expression* temp=body;
 	FOR(i,args.size()){
-		temp=new let(func->args[i].ss,args[i],temp);//let(varName=varExpression)in(body)
+		temp=new letExpression(func.args[i].ss,args[i],temp);//let(varName=varExpression)in(body)
 	}
 	var ret=temp->runExpr();
 	delete temp;
@@ -113,7 +119,7 @@ var function::runExpr(){
 }
 
 
-var sum::runExpr(){
+var sumExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	var dirVar=dir->runExpr();
@@ -123,7 +129,7 @@ var sum::runExpr(){
 }
 
 
-var sub::runExpr(){
+var subExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	var dirVar=dir->runExpr();
@@ -133,7 +139,7 @@ var sub::runExpr(){
 }
 
 
-var mult::runExpr(){
+var multExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	var dirVar=dir->runExpr();
@@ -143,7 +149,7 @@ var mult::runExpr(){
 }
 
 
-var div::runExpr(){
+var divExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	var dirVar=dir->runExpr();
@@ -153,7 +159,7 @@ var div::runExpr(){
 	return var(esqVar.val / dirVar.val);
 }
 
-var and::runExpr(){
+var andExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	var dirVar=dir->runExpr();
@@ -162,7 +168,7 @@ var and::runExpr(){
 	return var(esqVar.val && dirVar.val);
 }
 
-var or::runExpr(){
+var orExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	var dirVar=dir->runExpr();
@@ -171,7 +177,7 @@ var or::runExpr(){
 	return var(esqVar.val || dirVar.val);
 }
 
-var not::runExpr(){
+var notExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	if(esqVar.t==error)return esq;

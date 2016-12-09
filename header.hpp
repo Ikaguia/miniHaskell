@@ -99,10 +99,11 @@ extern bool alphaNumeric(char);
 extern map<string,miniHfunc> funcs;
 extern map<string,var> vars;
 
-#include "expression_header.hpp"
 
 //ast_builder
+class expression;
 extern expression* builder(string);
 
+#include "expression_header.hpp"
 #endif // miniHheader
 
