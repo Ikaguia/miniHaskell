@@ -31,6 +31,7 @@ typedef enum{
 	parsingError,
 	invalidNameError,
 	emptyListtError,
+	argCountError,
 } errorID;
 const string errorMsgs[] = {
 	"ERROR",
@@ -41,8 +42,13 @@ const string errorMsgs[] = {
 	"ERROR no matching expression found",
 	"ERROR invalid variable name",
 	"ERROR list is empty",
+	"ERROR wrong number of arguments to function",
 };
-const string reservedWords[] = {"int","bool","true","false"};
+const string reservedWords[] = {
+	"int","bool","listInt","listBool","true","false",
+	"let","in","if","then","else","define","function",
+	"sum","sub","mult","div",
+};
 
 //var
 typedef enum{tInt,tBool,listInt,listBool,error,success} type;
@@ -68,9 +74,8 @@ public:
 	string name;
 	vector<ts> args;
 	string body;
-	miniHfunc(const string&,const vector<ts>&,const string&);
-	miniHfunc();
-	var call(string);
+	miniHfunc(){};
+	miniHfunc(const string &n,const vector<ts> &ar,const string& b):name{n},args{ar},body{b}{};
 };
 
 //utilFuncs

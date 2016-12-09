@@ -3,13 +3,7 @@
 map<string,miniHfunc> funcs;
 map<string,var> vars;
 
-int main(){/*
-	if(DEBUG){
-		vector<string> v;
-		cout << parse("let(x=10)in(x)","let(%s=%s)in(%s)",v) << endl;
-		for(auto i:v)cout << i << endl;
-	}
-
+int main(){
 	string in;
 
 	system("clear");
@@ -21,10 +15,11 @@ int main(){/*
 		else if(in=="clear")system("clear");
 		else if(in=="" || strStartsWith(in,"//"))continue;
 		else{
+			expression* exp = builder(in);
 			cout << endl << "in = " << in << endl;
-			cout << runExpr(in).str() << endl;
+			cout << exp->runExpr().str() << endl;
+			//cout << runExpr(in).str() << endl;
 		}
-	}*/
-	builder("a");
+	}
 	return 0;
 }
