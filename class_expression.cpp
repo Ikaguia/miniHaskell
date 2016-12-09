@@ -188,7 +188,7 @@ var notExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	if(esqVar.t==error)return esqVar;
-	return var(!esqVar.val)Var;
+	return var(!esqVar.val);
 }
 
 
@@ -245,13 +245,17 @@ var leExpression::runExpr(){
 
 var listHeadExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
-	return li->head->runExpr();
+	var liVar=li->runExpr();
+	if(liVar.t==error)return liVar;
+	return var(liVar.li[0]);
 }
 
 
 var listTailExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
-	if(!li->tail)return var(error,emptyListError);
-	return li->tail->runExpr();
+	var liVar=li->runExpr();
+	if(liVar.t==error)return liVar;
+	vector<int> v(liVar.li.begin()+1,liVar.li.end());
+	return var(liVar.t,v);
 }
 

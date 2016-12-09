@@ -271,9 +271,12 @@ public:
 class listHeadExpression : public expression{
 public:
 	expression *li;
-	listTailExpression(expression* l):li{l}{};
-	virtual ~listTailExpression(){delete li;}
-	virtual type retType(){return li->head->retType();};
+	listHeadExpression(expression* l):li{l}{};
+	virtual ~listHeadExpression(){delete li;}
+	virtual type retType(){
+		if(li->retType()==listInt)return tInt;
+		return tBool;
+	};
 	virtual bool typeCheck(){return li->retType()!=listInt && li->retType()!=listBool;}
 	virtual var  runExpr();
 };
@@ -282,7 +285,7 @@ class listTailExpression : public expression{
 public:
 	expression *li;
 	listTailExpression(expression* l):li{l}{};
-	virtual ~listTailExpression(){delete li;}
+	virtual ~listTailExpression(){delete li;};
 	virtual type retType(){return li->retType();};
 	virtual bool typeCheck(){return li->retType()!=listInt && li->retType()!=listBool;}
 	virtual var  runExpr();
