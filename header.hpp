@@ -45,9 +45,13 @@ const string errorMsgs[] = {
 	"ERROR wrong number of arguments to function",
 };
 const string reservedWords[] = {
+	"clear","exit",
 	"int","bool","listInt","listBool","true","false",
 	"let","in","if","then","else","define","function",
 	"sum","sub","mult","div",
+	"and","or","not",
+	"eq",
+	"gt","lt","ge","le",
 };
 
 //var

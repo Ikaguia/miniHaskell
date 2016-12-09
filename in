@@ -16,7 +16,7 @@ listInt[1,2,3]
 
 listBool[true,true,true]
 
-define(totList(listInt.l)=(if(listEmpty(l))then(0)else(sum(listHead(l),totList(listTail(l))))))
+define(totList(listInt.l)=(if(eq(l,listInt[]))then(0)else(sum(listHead(l),totList(listTail(l))))))
 
 totList(listInt[1,2,3,4])
 

@@ -80,6 +80,15 @@ public:
 	virtual var  runExpr();
 };
 
+class variableExpression : public expression{
+public:
+	string name;
+	variableExpression(string s):name{s}{};
+	virtual type retType(){return vars[name].t;};
+	virtual bool typeCheck(){return true;};
+	virtual var  runExpr();
+};
+
 class defineExpression : public expression{
 public:
 	string name,args,body;
@@ -113,7 +122,7 @@ public:
 		delete dir;
 	}
 	virtual type retType(){return tInt;};
-	virtual bool typeCheck(){return esq->retType()==tInt && esq->retType()==tInt;}
+	virtual bool typeCheck(){return esq->retType()==tInt && dir->retType()==tInt;}
 	virtual var  runExpr();
 };
 
@@ -126,7 +135,7 @@ public:
 		delete dir;
 	}
 	virtual type retType(){return tInt;};
-	virtual bool typeCheck(){return esq->retType()==tInt && esq->retType()==tInt;}
+	virtual bool typeCheck(){return esq->retType()==tInt && dir->retType()==tInt;}
 	virtual var  runExpr();
 };
 
@@ -139,7 +148,7 @@ public:
 		delete dir;
 	}
 	virtual type retType(){return tInt;};
-	virtual bool typeCheck(){return esq->retType()==tInt && esq->retType()==tInt;}
+	virtual bool typeCheck(){return esq->retType()==tInt && dir->retType()==tInt;}
 	virtual var  runExpr();
 };
 
@@ -152,7 +161,7 @@ public:
 		delete dir;
 	}
 	virtual type retType(){return tInt;};
-	virtual bool typeCheck(){return esq->retType()==tInt && esq->retType()==tInt;}
+	virtual bool typeCheck(){return esq->retType()==tInt && dir->retType()==tInt;}
 	virtual var  runExpr();
 };
 
@@ -191,6 +200,91 @@ public:
 	}
 	virtual type retType(){return tBool;};
 	virtual bool typeCheck(){return esq->retType()==tBool;}
+	virtual var  runExpr();
+};
+
+class eqExpression : public expression{
+public:
+	expression *esq,*dir;
+	eqExpression(expression* e,expression* d):esq{e},dir{d}{};
+	virtual ~eqExpression(){
+		delete esq;
+		delete dir;
+	}
+	virtual type retType(){return tBool;};
+	virtual bool typeCheck(){return esq->retType()==dir->retType();}
+	virtual var  runExpr();
+};
+
+class gtExpression : public expression{
+public:
+	expression *esq,*dir;
+	gtExpression(expression* e,expression* d):esq{e},dir{d}{};
+	virtual ~gtExpression(){
+		delete esq;
+		delete dir;
+	}
+	virtual type retType(){return tBool;};
+	virtual bool typeCheck(){return esq->retType()==tInt && dir->retType()==tInt;}
+	virtual var  runExpr();
+};
+
+class ltExpression : public expression{
+public:
+	expression *esq,*dir;
+	ltExpression(expression* e,expression* d):esq{e},dir{d}{};
+	virtual ~ltExpression(){
+		delete esq;
+		delete dir;
+	}
+	virtual type retType(){return tBool;};
+	virtual bool typeCheck(){return esq->retType()==tInt && dir->retType()==tInt;}
+	virtual var  runExpr();
+};
+
+class geExpression : public expression{
+public:
+	expression *esq,*dir;
+	geExpression(expression* e,expression* d):esq{e},dir{d}{};
+	virtual ~geExpression(){
+		delete esq;
+		delete dir;
+	}
+	virtual type retType(){return tBool;};
+	virtual bool typeCheck(){return esq->retType()==tInt && dir->retType()==tInt;}
+	virtual var  runExpr();
+};
+
+class leExpression : public expression{
+public:
+	expression *esq,*dir;
+	leExpression(expression* e,expression* d):esq{e},dir{d}{};
+	virtual ~leExpression(){
+		delete esq;
+		delete dir;
+	}
+	virtual type retType(){return tBool;};
+	virtual bool typeCheck(){return esq->retType()==tInt && dir->retType()==tInt;}
+	virtual var  runExpr();
+};
+
+class listHeadExpression : public expression{
+public:
+	expression *li;
+	listTailExpression(expression* l):li{l}{};
+	virtual ~listTailExpression(){delete li;}
+	virtual type retType(){return li->head->retType();};
+	virtual bool typeCheck(){return li->retType()!=listInt && li->retType()!=listBool;}
+	virtual var  runExpr();
+};
+
+class listTailExpression : public expression{
+public:
+	expression *li;
+	listTailExpression(expression* l):li{l}{};
+	virtual ~listTailExpression(){delete li;}
+	virtual type retType(){return li->retType();};
+	virtual bool typeCheck(){return li->retType()!=listInt && li->retType()!=listBool;}
 	virtual var  runExpr();
 };
 

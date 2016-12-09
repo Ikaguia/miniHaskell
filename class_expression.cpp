@@ -70,6 +70,11 @@ var letExpression::runExpr(){
 }
 
 
+var variableExpression::runExpr(){
+	return vars[name];
+}
+
+
 var defineExpression::runExpr(){
 	if(isReserved(name))return var(error,reservedError);
 	if(!letter(name[0]) || !alphaNumeric(name))return var(error,invalidNameError);
@@ -105,7 +110,6 @@ bool functionExpression::typeCheck(){
 	}
 	return true;
 }
-
 var functionExpression::runExpr(){
 	if(args.size()!=func.args.size())return var(error,argCountError);
 	if(!typeCheck())return var(error,typeError);
@@ -123,8 +127,8 @@ var sumExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	var dirVar=dir->runExpr();
-	if(esqVar.t==error)return esq;
-	if(dirVar.t==error)return dir;
+	if(esqVar.t==error)return esqVar;
+	if(dirVar.t==error)return dirVar;
 	return var(esqVar.val + dirVar.val);
 }
 
@@ -133,8 +137,8 @@ var subExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	var dirVar=dir->runExpr();
-	if(esqVar.t==error)return esq;
-	if(dirVar.t==error)return dir;
+	if(esqVar.t==error)return esqVar;
+	if(dirVar.t==error)return dirVar;
 	return var(esqVar.val - dirVar.val);
 }
 
@@ -143,8 +147,8 @@ var multExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	var dirVar=dir->runExpr();
-	if(esqVar.t==error)return esq;
-	if(dirVar.t==error)return dir;
+	if(esqVar.t==error)return esqVar;
+	if(dirVar.t==error)return dirVar;
 	return var(esqVar.val * dirVar.val);
 }
 
@@ -153,34 +157,101 @@ var divExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	var dirVar=dir->runExpr();
-	if(esqVar.t==error)return esq;
-	if(dirVar.t==error)return dir;
+	if(esqVar.t==error)return esqVar;
+	if(dirVar.t==error)return dirVar;
 	if(esqVar.val==0)return var(error,div0Error);
 	return var(esqVar.val / dirVar.val);
 }
+
 
 var andExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	var dirVar=dir->runExpr();
-	if(esqVar.t==error)return esq;
-	if(dirVar.t==error)return dir;
+	if(esqVar.t==error)return esqVar;
+	if(dirVar.t==error)return dirVar;
 	return var(esqVar.val && dirVar.val);
 }
+
 
 var orExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
 	var dirVar=dir->runExpr();
-	if(esqVar.t==error)return esq;
-	if(dirVar.t==error)return dir;
+	if(esqVar.t==error)return esqVar;
+	if(dirVar.t==error)return dirVar;
 	return var(esqVar.val || dirVar.val);
 }
+
 
 var notExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 	var esqVar=esq->runExpr();
-	if(esqVar.t==error)return esq;
-	return var(!esqVar.val);
+	if(esqVar.t==error)return esqVar;
+	return var(!esqVar.val)Var;
+}
+
+
+var eqExpression::runExpr(){
+	if(!typeCheck())return var(error,typeError);
+	var esqVar=esq->runExpr();
+	var dirVar=dir->runExpr();
+	if(esqVar.t==error)return esqVar;
+	if(dirVar.t==error)return dirVar;
+	if(esqVar.t==listInt || esqVar.t==listBool)return (esqVar.li==dirVar.li);
+	return var(esqVar.val == dirVar.val);
+}
+
+
+var gtExpression::runExpr(){
+	if(!typeCheck())return var(error,typeError);
+	var esqVar=esq->runExpr();
+	var dirVar=dir->runExpr();
+	if(esqVar.t==error)return esqVar;
+	if(dirVar.t==error)return dirVar;
+	return var(esqVar.val > dirVar.val);
+}
+
+
+var ltExpression::runExpr(){
+	if(!typeCheck())return var(error,typeError);
+	var esqVar=esq->runExpr();
+	var dirVar=dir->runExpr();
+	if(esqVar.t==error)return esqVar;
+	if(dirVar.t==error)return dirVar;
+	return var(esqVar.val < dirVar.val);
+}
+
+
+var geExpression::runExpr(){
+	if(!typeCheck())return var(error,typeError);
+	var esqVar=esq->runExpr();
+	var dirVar=dir->runExpr();
+	if(esqVar.t==error)return esqVar;
+	if(dirVar.t==error)return dirVar;
+	return var(esqVar.val >= dirVar.val);
+}
+
+
+var leExpression::runExpr(){
+	if(!typeCheck())return var(error,typeError);
+	var esqVar=esq->runExpr();
+	var dirVar=dir->runExpr();
+	if(esqVar.t==error)return esqVar;
+	if(dirVar.t==error)return dirVar;
+	return var(esqVar.val <= dirVar.val);
+}
+
+
+var listHeadExpression::runExpr(){
+	if(!typeCheck())return var(error,typeError);
+	return li->head->runExpr();
+}
+
+
+var listTailExpression::runExpr(){
+	if(!typeCheck())return var(error,typeError);
+	if(!li->tail)return var(error,emptyListError);
+	return li->tail->runExpr();
 }
 
