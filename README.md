@@ -31,7 +31,12 @@ $ make MakeFile all
 a) Para sair, entre com: > exit
 b) Para limpar a tela: > clear
 
+3. Utilizando o Ikaguia's MiniHaskell
 
-3. Verificando a bateria de testes:
+a) A sintaxe completa está definida pelo arquivo "gramatica"
+b) Por exemplo, na linha 14, definimos a soma como sendo sum(%s,%s), onde %s é uma expressão. Podemos usar no intepretador, por exemplo:
 
+> sum(1,10)
+11
 
+b1) Podemos ver que o retorno é 11.
