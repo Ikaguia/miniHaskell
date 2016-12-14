@@ -44,6 +44,7 @@ const string errorMsgs[] = {
 	"ERROR list is empty",
 	"ERROR wrong number of arguments to function",
 };
+
 const string reservedWords[] = {
 	"clear","exit",
 	"int","bool","listInt","listBool","true","false",
@@ -82,22 +83,22 @@ public:
 	miniHfunc(const string &n,const vector<ts> &ar,const string& b):name{n},args{ar},body{b}{};
 };
 
-//utilFuncs
-extern bool strStartsWith(const string&,const string&);
-extern bool strEndsWith(const string&,const string&);
-extern ii get1stWordPos(const string&,string ignore=" 	\n,.();\"\'=");
-extern string get1stWord(const string&,string ignore=" 	\n,.();\"\'=");
-extern string lower_case(const string&);
-extern string upper_case(const string&);
-extern string noSpaces(const string&);
-extern bool parse(string,string,vector<string>&);
-extern bool isReserved(const string&);
-extern bool letter(const string&);
-extern bool letter(char);
-extern bool number(const string&);
-extern bool number(char);
-extern bool alphaNumeric(const string&);
-extern bool alphaNumeric(char);
+//Utility Functions
+extern bool 	strStartsWith	(const string&,const string&);
+extern bool 	strEndsWith		(const string&,const string&);
+extern ii 		get1stWordPos	(const string&,string ignore=" 	\n,.();\"\'=");
+extern string 	get1stWord		(const string&,string ignore=" 	\n,.();\"\'=");
+extern string 	lower_case		(const string&);
+extern string 	upper_case		(const string&);
+extern string 	noSpaces		(const string&);
+extern bool 	parse			(string,string,vector<string>&);
+extern bool 	isReserved		(const string&);
+extern bool 	letter			(const string&);
+extern bool 	letter			(char);
+extern bool 	number			(const string&);
+extern bool 	number			(char);
+extern bool 	alphaNumeric	(const string&);
+extern bool 	alphaNumeric	(char);
 
 //main
 extern map<string,miniHfunc> funcs;
@@ -110,4 +111,3 @@ extern expression* builder(string);
 
 #include "expression_header.hpp"
 #endif // miniHheader
-
