@@ -27,8 +27,9 @@
 *.exe
 *.out
 *.app
-
 mh
+tmh
 
 # Temporary files
 *.*~
+*~

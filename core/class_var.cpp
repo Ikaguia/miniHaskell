@@ -1,4 +1,22 @@
-#include "header.hpp"
+#include <bits/stdc++.h>
+using namespace std;
+
+using ii = pair<int,int>;
+#include "../util.hpp"
+
+#include "var.hpp"
+
+const string errorMsgs[] = {
+	"ERROR",
+	"ERROR CALL function not implemented",
+	"ERROR invalid type",
+	"ERROR reserved words",
+	"ERROR division by 0",
+	"ERROR no matching expression found",
+	"ERROR invalid variable name",
+	"ERROR list is empty",
+	"ERROR wrong number of arguments to function",
+};
 
 string var::str(){
 	if(t==success)return "SUCCESS";

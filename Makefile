@@ -1,16 +1,22 @@
-CC = g++ #compiler
+CC = g++
 FLAGS = -std=c++11 -Wall -Wno-unused-result -O2
 
 PARSER = ast_builder.cpp
-OBJS = main.cpp utilFuncs.cpp class_expression.cpp class_var.cpp
-TARGET = mh
+CORE = util.cpp ./core/class_expression.cpp ./core/class_var.cpp
 
-#minihaskell rule will just execute if one of OBJS file set changes
-minihaskell: $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) -o $(TARGET)
+MH_MAIN = main.cpp #main executable
+MN_TEST = ./test/baselevel_usage.cpp #test executable
+
+#minihaskell rule will just execute if one of CORE or MH_MAIN file set changes
+minihaskell: $(CORE) $(MH_MAIN)
+	$(CC) $(FLAGS) $(CORE) $(MH_MAIN) -o mh
+
+#Base Level test (see ./test/baselevel_usage.cpp)
+bltest: $(CORE) $(MN_TEST)
+	$(CC) $(FLAGS) $(CORE) $(MN_TEST) -o tmh
 
 clean:
 	find . -type f -name '*.o' -delete
 
-#makefile executes all rule by default
+#makefile executes the 'all' rule by default
 all: minihaskell clean

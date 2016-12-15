@@ -1,5 +1,36 @@
-#ifndef exprHeader
-#define epxrHeader
+#ifndef EXPRESSION_HPP
+#define EXPRESSION_HPP
+
+extern map<string,var> vars;
+
+// this is being used by functionExpression class
+using ts = pair<type,string>;
+class miniHfunc{
+public:
+	string name;
+	vector<ts> args;
+	string body;
+	miniHfunc(){};
+	miniHfunc(const string &n,const vector<ts> &ar,const string& b):name{n},args{ar},body{b}{};
+};
+extern map<string,miniHfunc> funcs;
+
+typedef enum{
+	defError,
+	funcError,
+	typeError,
+	reservedError,
+	div0Error,
+	parsingError,
+	invalidNameError,
+	emptyListtError,
+	argCountError,
+} errorID;
+
+//ast_builder
+class expression;
+extern expression* builder(string);
+
 
 class expression{
 public:
