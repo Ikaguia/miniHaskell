@@ -11,3 +11,12 @@ expression* builder(string s){
 	yylex_destroy();
 	return ast;
 }
+
+int main(int argc, char const *argv[]){
+	string s;
+	getline(cin, s);
+
+	builder(s);
+
+	return 0;
+}

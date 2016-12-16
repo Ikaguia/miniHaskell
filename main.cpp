@@ -1,7 +1,7 @@
 #include "header.hpp"
 
-map<string,miniHfunc> funcs;
-map<string,var> vars;
+// map<string,miniHfunc> funcs;
+// map<string,var> vars;
 
 int main(){
 	string in;
@@ -10,16 +10,17 @@ int main(){
 	while(1){
 		vars.clear();
 		cout << "> ";
-		getline(cin,in);
+		if(!getline(cin, in)){cout << endl; break;}
 		if(in=="exit")break;
 		else if(in=="clear")system("clear");
 		else if(in=="" || strStartsWith(in,"//"))continue;
 		else{
 			expression* exp = builder(in);
 			//cout << endl << "in = " << in << endl;
-			cout << exp->runExpr().str() << endl;
+			if(exp) cout << exp->runExpr().str() << endl;
 			//cout << runExpr(in).str() << endl;
 		}
 	}
+
 	return 0;
 }
