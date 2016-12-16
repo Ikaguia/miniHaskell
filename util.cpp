@@ -1,4 +1,19 @@
-#include "header.hpp"
+#include <bits/stdc++.h>
+using namespace std;
+
+
+using ii = pair<int,int>;
+#include "util.hpp"
+
+const string reservedWords[] = {
+	"clear","exit",
+	"int","bool","listInt","listBool","true","false",
+	"let","in","if","then","else","define","function",
+	"sum","sub","mult","div",
+	"and","or","not",
+	"eq",
+	"gt","lt","ge","le",
+};
 
 bool strStartsWith(const string& a,const string& b){
 	if(a.size() <b.size())return false;
@@ -24,7 +39,7 @@ ii get1stWordPos(const string& s,string ignore){
 string get1stWord(const string& s,string ignore){
 	ii pos = get1stWordPos(s,ignore);
 	//cout << s << " " << pos.ff << " " << pos.ss << endl;
-	return s.substr(pos.ff,pos.ss-pos.ff);
+	return s.substr(pos.first,pos.second-pos.first);
 }
 
 string lower_case(const string& in){

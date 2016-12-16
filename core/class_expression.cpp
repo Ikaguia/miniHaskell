@@ -1,4 +1,17 @@
-#include "header.hpp"
+#include <bits/stdc++.h>
+using namespace std;
+
+#include "var.hpp"
+#include "expression.hpp"
+
+using ii = pair<int,int>;
+#include "../util.hpp"
+
+#define ff first
+#define ss second
+
+map<string,miniHfunc> funcs;
+map<string,var> vars;
 
 map<string,miniHfunc> funcs;
 map<string,var> vars;
