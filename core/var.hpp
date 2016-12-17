@@ -1,6 +1,9 @@
 #ifndef VAR_HPP
 #define VAR_HPP
 
+#include <vector>
+using namespace std;
+
 typedef enum{tInt,tBool,listInt,listBool,error,success} type;
 
 class var{

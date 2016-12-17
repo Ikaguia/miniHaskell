@@ -502,15 +502,16 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "tokenizer.l"
-#line 2 "tokenizer.l"
+#line 1 "parser/tokenizer.l"
+#line 2 "parser/tokenizer.l"
 #include <cstdio>
 #include <iostream>
 using namespace std;
 #define YY_DECL extern int yylex()
-#include "header.hpp"
+#include "./core/expression.hpp"
+#include "./core/var.hpp"
 #include "parser.tab.h"  // to get the token types that we return
-#line 514 "lex.cpp"
+#line 515 "lex.cpp"
 
 #define INITIAL 0
 
@@ -697,9 +698,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 44 "tokenizer.l"
+#line 45 "parser/tokenizer.l"
 
-#line 703 "lex.cpp"
+#line 704 "lex.cpp"
 
 	if ( !(yy_init) )
 		{
@@ -784,83 +785,83 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 45 "tokenizer.l"
+#line 46 "parser/tokenizer.l"
 { return tfalse; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 46 "tokenizer.l"
+#line 47 "parser/tokenizer.l"
 { return ttrue; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 48 "tokenizer.l"
+#line 49 "parser/tokenizer.l"
 { return tlet; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 49 "tokenizer.l"
+#line 50 "parser/tokenizer.l"
 { return tin; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 51 "tokenizer.l"
+#line 52 "parser/tokenizer.l"
 { return tcomma; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 53 "tokenizer.l"
+#line 54 "parser/tokenizer.l"
 { return tif; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 54 "tokenizer.l"
+#line 55 "parser/tokenizer.l"
 { return tthen; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 55 "tokenizer.l"
+#line 56 "parser/tokenizer.l"
 { return telse; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 57 "tokenizer.l"
+#line 58 "parser/tokenizer.l"
 { return teq; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 58 "tokenizer.l"
+#line 59 "parser/tokenizer.l"
 { return tlt; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 59 "tokenizer.l"
+#line 60 "parser/tokenizer.l"
 { return tgt; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 60 "tokenizer.l"
+#line 61 "parser/tokenizer.l"
 { return tlistInt; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 61 "tokenizer.l"
+#line 62 "parser/tokenizer.l"
 { return tlistBool; }
 	YY_BREAK
 case 14:
 /* rule 14 can match eol */
 YY_RULE_SETUP
-#line 63 "tokenizer.l"
+#line 64 "parser/tokenizer.l"
 ;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 64 "tokenizer.l"
+#line 65 "parser/tokenizer.l"
 { yylval.ival = atoi(yytext); return INT; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 65 "tokenizer.l"
+#line 66 "parser/tokenizer.l"
 {
                                 yylval.sval = strdup(yytext);
                                 return STRING;
@@ -868,70 +869,70 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 69 "tokenizer.l"
+#line 70 "parser/tokenizer.l"
 { return TLPAREN; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 70 "tokenizer.l"
+#line 71 "parser/tokenizer.l"
 { return TRPAREN; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 71 "tokenizer.l"
+#line 72 "parser/tokenizer.l"
 { return TLCOLCH; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 72 "tokenizer.l"
+#line 73 "parser/tokenizer.l"
 { return TRCOLCH; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 74 "tokenizer.l"
+#line 75 "parser/tokenizer.l"
 { return tmult; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 75 "tokenizer.l"
+#line 76 "parser/tokenizer.l"
 { return tsum; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 76 "tokenizer.l"
+#line 77 "parser/tokenizer.l"
 { return tminus; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 77 "tokenizer.l"
+#line 78 "parser/tokenizer.l"
 { return tdivi; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 78 "tokenizer.l"
+#line 79 "parser/tokenizer.l"
 { return tor; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 79 "tokenizer.l"
+#line 80 "parser/tokenizer.l"
 { return tand; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 80 "tokenizer.l"
+#line 81 "parser/tokenizer.l"
 { return tnot; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 82 "tokenizer.l"
+#line 83 "parser/tokenizer.l"
 ;
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 83 "tokenizer.l"
+#line 84 "parser/tokenizer.l"
 ECHO;
 	YY_BREAK
-#line 935 "lex.cpp"
+#line 936 "lex.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1929,6 +1930,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 83 "tokenizer.l"
+#line 84 "parser/tokenizer.l"
 
 

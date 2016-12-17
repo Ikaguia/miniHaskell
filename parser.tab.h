@@ -79,7 +79,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 22 "parser.y" /* yacc.c:1909  */
+#line 23 "parser/parser.y" /* yacc.c:1909  */
 
 	expression *ret;
 	vector<expression*> *vr;

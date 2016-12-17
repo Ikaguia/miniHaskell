@@ -1,6 +1,10 @@
 #ifndef EXPRESSION_HPP
 #define EXPRESSION_HPP
 
+#include <vector>
+#include <string>
+#include <map>
+#include "var.hpp"
 extern map<string,var> vars;
 
 // this is being used by functionExpression class

@@ -13,8 +13,6 @@ using ii = pair<int,int>;
 map<string,miniHfunc> funcs;
 map<string,var> vars;
 
-map<string,miniHfunc> funcs;
-map<string,var> vars;
 var integerListExpression::runExpr(){
 	if(!typeCheck())return var(error,typeError);
 
@@ -65,22 +63,17 @@ var ifThenElseExpression::runExpr(){
 
 
 var letExpression::runExpr(){
-	printf("asd\n");
 	if(isReserved(name)) return var(error,reservedError);
-	printf("asd\n");
 	if(!letter(name[0]) || !alphaNumeric(name))return var(error,invalidNameError);
 	//for(auto i:vars)if(name==i.ff)return var(error,invalidNameError);
-	printf("asd\n");
 	for(auto i:funcs)if(name==i.ff)return var(error,invalidNameError);
 
-	printf("asd\n");
 	var newVar=newExp->runExpr();  //get new value
 	if(newVar.t==error)return newVar;//return error
 
 	oldVar=vars[name];//save old variable
 	vars[name]=newVar;//replace old variable with new
 
-	printf("asd\n");
 
 	var ret=in->runExpr();//run the expression
 

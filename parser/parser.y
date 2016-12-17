@@ -1,7 +1,8 @@
 %{
 #include <cstdio>
 #include <iostream>
-#include "header.hpp"
+#include "./core/expression.hpp"
+#include "./core/var.hpp"
 // #include "s.tab.h"
 // #include "lex.h"
 using namespace std;

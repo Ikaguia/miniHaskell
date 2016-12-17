@@ -324,7 +324,7 @@ extern int yylex (void);
 #undef YY_DECL
 #endif
 
-#line 83 "tokenizer.l"
+#line 84 "parser/tokenizer.l"
 
 
 #line 331 "lex.h"
