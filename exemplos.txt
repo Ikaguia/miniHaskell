@@ -1,0 +1,7 @@
+false & true
+false | true
+3 + 2 * 9
+if 2 > 3 then 3 else 5
+if 2 < 3 then 3 else 5
+let x = 4 in(let x = x + 1 in(x))
+if 2 < 3 then (let x = 4 in(x + 1)) else (let x = 2 in(let x = x * 12 in(x+3)))
