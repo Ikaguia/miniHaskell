@@ -3,7 +3,16 @@
 #include <iostream>
 using namespace std;
 #define YY_DECL extern int yylex()
-#include "header.hpp"
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#include "../core/var.hpp"
+#include "../core/expression.hpp"
+
+using ii = pair<int,int>;
+#include "../util.hpp"
+
 #include "parser.tab.h"  // to get the token types that we return
 %}
 %option outfile="lex.cpp" header-file="lex.h"
@@ -61,7 +70,6 @@ listBool "listBool"
 {listBool}					  { return tlistBool; }
 
 [ \t\n]                         ;
-[0-9]+\.[0-9]+                { yylval.fval = atof(yytext); return FLOAT; }
 [0-9]+                        { yylval.ival = atoi(yytext); return INT; }
 [a-zA-Z]+[a-zA-Z0-9]*         {
                                 yylval.sval = strdup(yytext);

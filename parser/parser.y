@@ -1,11 +1,19 @@
 %{
 #include <cstdio>
 #include <iostream>
-#include "header.hpp"
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#include "../core/var.hpp"
+#include "../core/expression.hpp"
+
+using ii = pair<int,int>;
+#include "../util.hpp"
+
 // #include "s.tab.h"
 // #include "lex.h"
 using namespace std;
-
 // stuff from flex that bison needs to know about:
 extern int yylex();
 extern int yyparse();
@@ -23,7 +31,6 @@ void yyerror(expression **ast, const char *s);
 	expression *ret;
 	vector<expression*> *vr;
 	int ival;
-	float fval;
 	char *sval;
 }
 
@@ -49,9 +56,7 @@ void yyerror(expression **ast, const char *s);
 %left "else"
 
 %token <ival> INT
-%token <fval> FLOAT
 %token <sval> STRING
-%token <sval> TUDO
 %token TLPAREN "("
 %token TRPAREN ")"
 %token TLCOLCH "["
@@ -97,13 +102,7 @@ void yyerror(expression **ast, const char *s);
 comeco:
 	{ ast = NULL; }
 	| exp{
-		// printf("asd %d\n", ((integerExpression*)((sumExpression*)$1)->dir)->val);
-		// expression *tmp = new expression(*$1);
-		// *tmp = *$1;
 		*ast = $1;
-		printf("%d\n", ((integerExpression*)((sumExpression*)ast)->dir)->val);
-
-		printf("%p %p\n", ast, $1);
 	}
 ;
 
@@ -227,5 +226,7 @@ listbool:
 %%
 
 void yyerror(expression **ast, const char *s) {
-	cout << "EEK, parse error!  Message: " << s << endl;
+	delete *ast;
+	*ast = NULL;
+	cout << s << endl;
 }

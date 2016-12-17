@@ -137,7 +137,7 @@ public:
 	miniHfunc &func;
 	vector<expression*> args;
 	expression* body;
-	functionExpression(string s,vector<expression*> a):func{funcs[s]},args{a},body{builder(func.body)}{};
+	functionExpression(string s,vector<expression*> a):func(funcs[s]),args(a),body(builder(func.body)){};
 	virtual ~functionExpression(){
 		for(auto i:args)delete i;
 		delete body;
