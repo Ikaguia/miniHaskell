@@ -1,12 +1,13 @@
 %{
 #include <cstdio>
 #include <iostream>
+
 #include "./core/expression.hpp"
 #include "./core/var.hpp"
+
 // #include "s.tab.h"
 // #include "lex.h"
 using namespace std;
-
 // stuff from flex that bison needs to know about:
 extern int yylex();
 extern int yyparse();

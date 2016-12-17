@@ -3,8 +3,10 @@
 #include <iostream>
 using namespace std;
 #define YY_DECL extern int yylex()
+
 #include "./core/expression.hpp"
 #include "./core/var.hpp"
+
 #include "parser.tab.h"  // to get the token types that we return
 %}
 %option outfile="lex.cpp" header-file="lex.h"

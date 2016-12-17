@@ -14,7 +14,10 @@ public:
 	string name;
 	vector<ts> args;
 	string body;
-	miniHfunc(){};
+	miniHfunc():name{""}{};
+	miniHfunc(string s);
+
+	var call(string s,bool print);
 	miniHfunc(const string &n,const vector<ts> &ar,const string& b):name{n},args{ar},body{b}{};
 };
 extern map<string,miniHfunc> funcs;

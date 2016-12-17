@@ -4,8 +4,9 @@ FLAGS = -std=c++11 -Wall -Wno-unused-result -O2 -lfl
 PARSER = ast_builder.cpp parser.tab.c lex.cpp
 CORE = util.cpp ./core/class_expression.cpp ./core/class_var.cpp
 
+
 MH_MAIN = main.cpp #main executable
-MN_TEST = ./test/baselevel_usage.cpp #test executable
+MN_TEST = ./test/baselevel_coverageTest.cpp ./test/baselevel_usage.cpp #test executable
 
 TARGET = mh
 
@@ -19,8 +20,8 @@ minihaskell: $(CORE) $(MH_MAIN)
 	$(CC) $(CORE) $(PARSER) $(MH_MAIN) $(FLAGS) -o $(TARGET)
 
 #Base Level test (see ./test/baselevel_usage.cpp)
-bltest: $(CORE) $(MN_TEST)
-	$(CC) $(FLAGS) $(CORE) $(MN_TEST) -o tmh
+bltest: $(CORE) $(OLD_PARSER) $(MN_TEST)
+	$(CC) $(FLAGS) $(OLD_PARSER) $(CORE) $(MN_TEST) -o tmh
 
 clean:
 	find . -type f -name '*.o' -delete

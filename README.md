@@ -11,7 +11,7 @@ Alunos:
 
     Cristiano Krug Brust 15/0008058
 
-Neste trabalho dividimos a equipe em duas. A primeira é formada pelos alunos de número 1 e 2 com o objetivo de desenvolver a solução do MiniHaskell proposta pelo professor, mas foi abandonada. Enquanto que a segunda, decidiu refazer o interpretador em C++.
+Neste trabalho dividimos a equipe em duas. A primeira é formada pelos alunos de número 1 e 2 com o objetivo de desenvolver a solução do MiniHaskell proposta pelo professor, porém foi abandonada. Enquanto que a segunda, decidiu refazer o interpretador em C++.
 
 Isto acontece porque a primeira equipe deseja compreender os pradrões de projeto e apefeiçoar seu conhecimento em ambiente Java. Enquanto que a segunda, tem objetivo de por em prática conhecimentos relacionados a parsing e técnicas de testes unitários em C++.
 
@@ -21,22 +21,28 @@ Isto acontece porque a primeira equipe deseja compreender os pradrões de projet
 
 a) Requisitos:
 g++ (Ubuntu 4.9.4-2ubuntu1~14.04.1) 4.9.4
+g++ (macOS com MacPorts ou Homebrew) 4.9.4
 
 b) Abra o terminal na pasta raiz de onde foi extraido o zip. Execute o comando:
 
-$ make MakeFile all
+$ make
+
+c) Caso não seja possível realizar a compilação, os arquivos binários estão disponíveis na pasta /bin.
 
 2. Executando o interpretador: $ ./mh
 
 a) Para sair, entre com: > exit
+
 b) Para limpar a tela: > clear
 
 3. Utilizando o Ikaguia's MiniHaskell
 
 a) A sintaxe completa está definida pelo arquivo "gramatica"
+
 b) Por exemplo, na linha 14, definimos a soma como sendo sum(%s,%s), onde %s é uma expressão. Podemos usar no intepretador, por exemplo:
 
 > sum(1,10)
+
 11
 
-b1) Podemos ver que o retorno é 11.
+b1) Podemos ver que o retorno é 11, como o esperado.

@@ -29,4 +29,14 @@ extern bool 	number			(char);
 extern bool 	alphaNumeric	(const string&);
 extern bool 	alphaNumeric	(char);
 
+const string reservedWords[] = {
+	"clear","exit",
+	"int","bool","listInt","listBool","true","false",
+	"let","in","if","then","else","define","function",
+	"sum","sub","mult","div",
+	"and","or","not",
+	"eq",
+	"gt","lt","ge","le",
+};
+
 #endif

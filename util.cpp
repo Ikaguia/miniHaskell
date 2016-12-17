@@ -5,16 +5,6 @@ using namespace std;
 using ii = pair<int,int>;
 #include "util.hpp"
 
-const string reservedWords[] = {
-	"clear","exit",
-	"int","bool","listInt","listBool","true","false",
-	"let","in","if","then","else","define","function",
-	"sum","sub","mult","div",
-	"and","or","not",
-	"eq",
-	"gt","lt","ge","le",
-};
-
 bool strStartsWith(const string& a,const string& b){
 	if(a.size() <b.size())return false;
 	if(a.size()==b.size())return a==b;
