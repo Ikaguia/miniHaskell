@@ -22,12 +22,14 @@ void testSimpleExpression(){
 	s0 = "sum(1,sub(sum(1,2),10))";
 	returnValue = oldParser::runExpr(s0);
 
-	cout << "test0 is: " << returnValue.str() << endl;
+	cout << "running test0 = " << s0 << end;
+	cout << "result is: " << returnValue.str() << endl;
 }
 
 int main(){
 	vars.clear();
 
+	cout << "1. Hardcode Test" << endl;
 	//example of sum
 	integerExpression *lop, *rop;
 	sumExpression *sum1;
@@ -39,10 +41,11 @@ int main(){
 
 	cout << "Sum of 1 and 5 is: " << sum1->runExpr().str() << endl;
 
+	cout << "\n2. Old Interpreter string-input Test" << endl;
 	testSimpleExpression();
 
-	cout << "1. Coverage Test" << endl;
+	cout << "\n3. Code Coverage Test" << endl;
 	test_oldParser();
 
-	return 0;
+	return 0; 
 }

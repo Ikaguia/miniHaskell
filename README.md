@@ -21,19 +21,29 @@ Isto acontece porque a primeira equipe deseja compreender os pradrões de projet
 
 a) Requisitos:
 g++ (Ubuntu 4.9.4-2ubuntu1~14.04.1) 4.9.4
-g++ (macOS com MacPorts ou Homebrew) 4.9.4
+g++ (macOS com MacPorts ou Homebrew) 4.9.4 ~ Caso seu sistema for macOS/OSX
+flex 2.5.35 ~ Utilize o comando "sudo apt-get install flex" em sistemas Debian para instala-lo.
 
 b) Abra o terminal na pasta raiz de onde foi extraido o zip. Execute o comando:
 
 $ make
 
-c) Caso não seja possível realizar a compilação, os arquivos binários estão disponíveis na pasta /bin.
+c) Compilando o executável tmh
+
+c1) Abra o terminal e execute:
+
+$ make bltest
+
+obs: Caso não seja possível realizar a compilação, os arquivos executáveis estão disponíveis na pasta /bin.
+
+
 
 2. Executando o interpretador: $ ./mh
 
 a) Para sair, entre com: > exit
 
 b) Para limpar a tela: > clear
+
 
 3. Utilizando o Ikaguia's MiniHaskell
 
@@ -46,3 +56,4 @@ b) Por exemplo, na linha 14, definimos a soma como sendo sum(%s,%s), onde %s é 
 11
 
 b1) Podemos ver que o retorno é 11, como o esperado.
+

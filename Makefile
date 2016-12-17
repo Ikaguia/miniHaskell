@@ -1,8 +1,10 @@
 CC = g++
-FLAGS = -std=c++11 -Wall -Wno-unused-result -O2 -lfl
+FLAGS = -std=c++11 -Wall -Wno-unused-result -O2
 
 PARSER = ast_builder.cpp parser.tab.c lex.cpp
 CORE = util.cpp ./core/class_expression.cpp ./core/class_var.cpp
+
+OLD_PARSER = ./parser/oldParser.cpp ./core/class_miniHfunc.cpp
 
 
 MH_MAIN = main.cpp #main executable
@@ -17,11 +19,11 @@ FLEX = flex
 
 #minihaskell rule will just execute if one of CORE or MH_MAIN file set changes
 minihaskell: $(CORE) $(MH_MAIN)
-	$(CC) $(CORE) $(PARSER) $(MH_MAIN) $(FLAGS) -o $(TARGET)
+	$(CC) $(CORE) $(PARSER) $(MH_MAIN) $(FLAGS) -lfl -o $(TARGET)
 
 #Base Level test (see ./test/baselevel_usage.cpp)
-bltest: $(CORE) $(MN_TEST)
-	$(CC) $(FLAGS) $(CORE) $(MN_TEST) -o tmh
+bltest: $(CORE) $(OLD_PARSER) $(MN_TEST)
+	$(CC) $(FLAGS) $(CORE) $(OLD_PARSER) $(MN_TEST) -o tmh
 
 clean:
 	find . -type f -name '*.o' -delete
