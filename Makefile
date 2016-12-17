@@ -20,8 +20,8 @@ minihaskell: $(CORE) $(MH_MAIN)
 	$(CC) $(CORE) $(PARSER) $(MH_MAIN) $(FLAGS) -o $(TARGET)
 
 #Base Level test (see ./test/baselevel_usage.cpp)
-bltest: $(CORE) $(OLD_PARSER) $(MN_TEST)
-	$(CC) $(FLAGS) $(OLD_PARSER) $(CORE) $(MN_TEST) -o tmh
+bltest: $(CORE) $(MN_TEST)
+	$(CC) $(FLAGS) $(CORE) $(MN_TEST) -o tmh
 
 clean:
 	find . -type f -name '*.o' -delete
