@@ -17,7 +17,7 @@ MN_TEST = ./test/baselevel_coverageTest.cpp ./test/baselevel_usage.cpp #test exe
 
 #minihaskell rule will just execute if one of CORE or MH_MAIN file set changes
 minihaskell: $(CORE) $(PARSER) $(MH_MAIN)
-	$(CC) $(FLAGS) $(CORE) $(PARSER) $(MH_MAIN) -o mh
+	$(CC) $(FLAGS) $(CORE) $(PARSER) $(MH_MAIN) -lfl -o mh
 
 #Base Level test (see ./test/baselevel_usage.cpp)
 bltest: $(CORE) $(OLD_PARSER) $(MN_TEST)

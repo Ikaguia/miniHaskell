@@ -25,19 +25,19 @@ expression* builder(string s){
 
 int main(){
 	string in;
-
 	system("clear");
 	while(1){
 		vars.clear();
 		cout << "> ";
-		if(!getline(cin, in)){cout << endl; break;}
-		if(in=="exit")break;
-		else if(in=="clear")system("clear");
-		else if(in=="" || strStartsWith(in,"//"))continue;
-		else{
-+			expression* exp = builder(in);
-			if(exp) cout << exp->runExpr().str() << endl;
-		}
+		//if(!getline(cin, in)){cout << endl; break;}
+		//if(in=="exit")break;
+		//else if(in=="clear")system("clear");
+		//else if(in=="" || strStartsWith(in,"//"))continue;
 	}
++			//expression *exp;
+
+			//exp = builder(in);
+			//if(exp) cout << exp->runExpr().str() << endl;
+
 	return 0;
 }
